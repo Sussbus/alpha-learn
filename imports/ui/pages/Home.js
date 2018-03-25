@@ -15,25 +15,6 @@ import {
 const { Header, Footer, Sider, Content } = Layout;
 
 class Home extends Component {
-    handleSubmit = e => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                //console.log('Received values of form: ', values);
-                console.log(values.userName, values.password);
-            }
-        });
-    };
-
-    compareToFirstPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('Passwords do not match!');
-        } else {
-            callback();
-        }
-    };
-
     render() {
         const { getFieldDecorator } = this.props.form;
 
