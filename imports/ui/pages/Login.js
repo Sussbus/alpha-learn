@@ -123,7 +123,7 @@ class Login extends Component {
                                                 type="primary"
                                                 htmlType="submit"
                                             >
-                                                Sign Up
+                                                Login
                                             </Button>
                                             Or{' '}
                                             <Link to="/signup">

@@ -17,7 +17,7 @@ export function loadUser() {
                 type: 'USER_DATA',
                 data: {
                     user: Meteor.user(),
-                    subscription: Meteor.subscription('users')
+                    subscription: Meteor.subscribe('users')
                 }
             });
         });

@@ -7,8 +7,9 @@ import App from '../../ui/layouts/App.js';
 import { Provider } from 'react-redux';
 
 import store from '../../store/store';
-
+import { loadUser } from '../../actions/auth'
 Meteor.startup(() => {
+    store.dispatch(loadUser())
     render(
         <Provider store={store}>
             <App />

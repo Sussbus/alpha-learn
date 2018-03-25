@@ -11,12 +11,14 @@ import {
     Icon,
     Checkbox
 } from 'antd';
+import {connect} from 'react-redux'
 
 const { Header, Footer, Sider, Content } = Layout;
 
 class Home extends Component {
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { username } = this.props;
 
         return (
             <div>
@@ -24,7 +26,7 @@ class Home extends Component {
                     <Content>
                         <Row style={{ marginTop: '5%' }}>
                             <Col span={7} offset={8}>
-                                <h1>Home</h1>
+                                <h1>{username}</h1>
                             </Col>
                         </Row>
                     </Content>
@@ -36,4 +38,14 @@ class Home extends Component {
 
 const WrappedHomeForm = Form.create()(Home);
 
-export default WrappedHomeForm;
+const mapStateToProps = state => {
+    return {
+      username : state.auth.user.username
+    }
+  }
+  
+const mapDispatchToProps = dispatch => {
+    return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedHomeForm);
