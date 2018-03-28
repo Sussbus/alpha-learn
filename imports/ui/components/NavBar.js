@@ -56,7 +56,9 @@ class NavBar extends Component {
                         <Menu.Item key="setting:1">
                             <Link to="/profile">Profile</Link>
                         </Menu.Item>
-                        <Menu.Item key="setting:2">Settings</Menu.Item>
+                        <Menu.Item key="setting:2">
+                            <Link to="/settings">Settings</Link>
+                        </Menu.Item>
                         <Menu.Item key="setting:3">Help</Menu.Item>
                         <Menu.Item key="setting:4">
                             <span onClick={this.logoutUser}>Sign Out</span>
