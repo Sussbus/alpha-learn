@@ -6,8 +6,8 @@ const { Content } = Layout;
 
 const tabListNoTitle = [
     {
-        key: 'article',
-        tab: 'article'
+        key: 'projects',
+        tab: 'Projects'
     },
     {
         key: 'app',
@@ -20,7 +20,7 @@ const tabListNoTitle = [
 ];
 
 const contentListNoTitle = {
-    article: <p>article content</p>,
+    projects: <p>article content</p>,
     app: <p>app content</p>,
     project: <p>project content</p>
 };
@@ -32,7 +32,7 @@ class Profile extends Component {
     };
 
     state = {
-        noTitleKey: 'app'
+        key: 'app'
     };
 
     render() {
@@ -59,12 +59,12 @@ class Profile extends Component {
                         }
                         style={{ width: '100%' }}
                         tabList={tabListNoTitle}
-                        activeTabKey={this.state.noTitleKey}
+                        activeTabKey={this.state.key}
                         onTabChange={key => {
-                            this.onTabChange(key, 'noTitleKey');
+                            this.onTabChange(key, 'key');
                         }}
                     >
-                        {contentListNoTitle[this.state.noTitleKey]}
+                        {contentListNoTitle[this.state.key]}
                     </Card>
                 </Col>
             </Content>

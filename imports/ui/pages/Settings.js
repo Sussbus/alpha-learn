@@ -9,7 +9,7 @@ import {
     Card,
     Form,
     Modal,
-    notification
+    message
 } from 'antd';
 
 const { Content } = Layout;
@@ -57,11 +57,8 @@ class Settings extends Component {
         });
     };
 
-    openNotification = () => {
-        notification.success({
-            message: 'Success',
-            description: 'Your account information has been updated'
-        });
+    handleUpdate = () => {
+        message.success('Profile successfully updated!');
     };
     render() {
         const { user } = this.props;
@@ -105,7 +102,7 @@ class Settings extends Component {
                     <Button
                         type="primary"
                         style={{ marginTop: 10, marginBottom: 20 }}
-                        onClick={this.openNotification}
+                        onClick={this.handleUpdate}
                     >
                         Update
                     </Button>

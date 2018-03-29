@@ -39,7 +39,9 @@ class NavBar extends Component {
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="app">
-                    <Icon type="database" />Data
+                    <Link to="/data">
+                        <Icon type="database" />Data
+                    </Link>
                 </Menu.Item>
                 {!isLoggedIn ? (
                     <Menu.Item key="login">
