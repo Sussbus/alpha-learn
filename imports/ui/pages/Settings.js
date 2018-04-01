@@ -60,9 +60,19 @@ class Settings extends Component {
     handleUpdate = () => {
         message.success('Profile successfully updated!');
     };
+
+    handleSubmit = () => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log(values.bio);
+            }
+        });
+    };
+
     render() {
         const { user } = this.props;
-
+        const { getFieldDecorator } = this.props.form;
         return (
             <Content style={{ width: '100%', marginTop: 15 }}>
                 <Col span={20} offset={2}>
@@ -71,7 +81,7 @@ class Settings extends Component {
                         title="Details"
                         style={{ width: '100%', marginTop: 10 }}
                     >
-                        <Form>
+                        <Form onSubmit={this.handleSubmit} id="settingsForm">
                             <Form.Item {...formItemLayout} label="Username:">
                                 <span style={{ fontSize: 18, marginBottom: 2 }}>
                                     {user.username}
@@ -83,12 +93,17 @@ class Settings extends Component {
                                     placeholder="example@email.com"
                                 />
                             </Form.Item>
+
                             <Form.Item {...formItemLayout} label="Bio:">
-                                <Input.TextArea
-                                    style={{ width: 400, marginTop: 10 }}
-                                    autosize={{ minRows: 2, maxRows: 4 }}
-                                    placeholder="About you..."
-                                />
+                                {getFieldDecorator('bio', {
+                                    rules: [{ required: false }]
+                                })(
+                                    <Input.TextArea
+                                        style={{ width: 400, marginTop: 10 }}
+                                        autosize={{ minRows: 2, maxRows: 4 }}
+                                        placeholder="About you..."
+                                    />
+                                )}
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Website:">
                                 <Input
@@ -101,8 +116,9 @@ class Settings extends Component {
                     </Card>
                     <Button
                         type="primary"
+                        htmlType="submit"
+                        form="settingsForm"
                         style={{ marginTop: 10, marginBottom: 20 }}
-                        onClick={this.handleUpdate}
                     >
                         Update
                     </Button>
@@ -148,4 +164,8 @@ const mapDispatchToProps = dispatch => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+const WrappedSettingsForm = Form.create()(Settings);
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+    WrappedSettingsForm
+);
