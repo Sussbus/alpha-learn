@@ -61,11 +61,28 @@ class Settings extends Component {
         message.success('Profile successfully updated!');
     };
 
-    handleSubmit = () => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values.bio);
+                var keys = Object.keys(values);
+                let updateObj = {};
+
+                keys.map((key) => {
+                    if (values[key] !== undefined){
+                        updateObj[key] = values[key]
+                    }
+                });
+                if(Object.keys(updateObj).length > 0){
+                    Meteor.call('UserData.insert', updateObj, (error, result) => {
+                        if (error) {
+                          console.log(error)
+                        }
+                        else {
+                          message.success('Profile successfully updated!');
+                        }
+                      });
+                }
             }
         });
     };
@@ -106,11 +123,15 @@ class Settings extends Component {
                                 )}
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Website:">
-                                <Input
-                                    style={{ width: 275 }}
-                                    addonBefore="http://"
-                                    placeholder="mysite.com"
-                                />
+                                {getFieldDecorator('website', {
+                                        rules: [{ required: false }]
+                                })(
+                                    <Input
+                                        style={{ width: 275 }}
+                                        addonBefore="http://"
+                                        placeholder="mysite.com"
+                                    />
+                                )}
                             </Form.Item>
                         </Form>
                     </Card>
