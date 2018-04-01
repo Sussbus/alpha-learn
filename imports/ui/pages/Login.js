@@ -12,6 +12,8 @@ import {
     Checkbox
 } from 'antd';
 import { Link } from 'react-router-dom';
+import {withRouter} from 'react-router-dom'
+import { connect } from 'react-redux';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -24,16 +26,24 @@ class Login extends Component {
                     values.email,
                     values.password,
                     function(error) {
-                        if (!error) {
-                            console.log('Logged in with: ', values);
+                        if (error) {
+                            console.log(error)
                         } else {
-                            console.log(error);
                         }
                     }
                 );
+                this.props.history.push("/profile")
             }
         });
     };
+
+    componentWillReceiveProps(newProps){
+        if(this.props.auth.user !== newProps.auth.user){
+            if(newProps.auth.user !== {}){
+                this.props.history.push("/profile")
+            }
+        }
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -141,6 +151,14 @@ class Login extends Component {
     }
 }
 
-const WrappedLoginForm = Form.create()(Login);
+const mapStateToProps = state => {
+    return {
+        auth: state.auth
+    };
+};
+
+
+const doubleWrap = connect(mapStateToProps)(withRouter(Login))
+const WrappedLoginForm = Form.create()(doubleWrap);
 
 export default WrappedLoginForm;

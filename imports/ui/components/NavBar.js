@@ -48,11 +48,6 @@ class NavBar extends Component {
                         <Link to="/login">Login</Link>
                     </Menu.Item>
                 ) : null}
-                {!isLoggedIn ? (
-                    <Menu.Item key="signup">
-                        <Link to="/signup">Sign Up</Link>
-                    </Menu.Item>
-                ) : null}
                 {isLoggedIn ? (
                     <Menu.SubMenu title={<span>Account</span>}>
                         <Menu.Item key="setting:1">
