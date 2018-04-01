@@ -11,6 +11,7 @@ import {
     Modal,
     message
 } from 'antd';
+import { stat } from 'fs';
 
 const { Content } = Layout;
 
@@ -31,6 +32,25 @@ class Settings extends Component {
         visible: false,
         confirmLoading: false
     };
+
+    componentWillReceiveProps(nextProps){
+        const { auth } = this.props;
+
+        if(nextProps.auth.user !== this.props.user){
+            const profile = nextProps.auth.user.profile;
+            const keys = Object.keys(profile);
+            keys.map((key) => {
+                if(profile[key] !== ''){
+                    const newObj = {};
+                    newObj[key] = profile[key]
+                    this.props.form.setFieldsValue(newObj)
+                }
+            })
+            const emailObj = {};
+            emailObj['email'] = nextProps.auth.user.emails[0].address
+            this.props.form.setFieldsValue(emailObj)
+        }
+    }
 
     showModal = () => {
         this.setState({
@@ -61,33 +81,44 @@ class Settings extends Component {
         message.success('Profile successfully updated!');
     };
 
-    handleSubmit = e => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 var keys = Object.keys(values);
                 let updateObj = {};
 
-                keys.map(key => {
-                    if (values[key] !== undefined) {
-                        updateObj[key] = values[key];
+                keys.map((key) => {
+                    if (values[key] !== undefined && key !== 'email'){
+                        if(values[key] !== this.props.user.profile[key]){
+                            updateObj[key] = values[key]
+                        }
                     }
                 });
-                if (Object.keys(updateObj).length > 0) {
-                    Meteor.call(
-                        'UserData.insert',
-                        updateObj,
-                        (error, result) => {
-                            if (error) {
-                                console.log(error);
-                            } else {
-                                message.success(
-                                    'Profile successfully updated!'
-                                );
-                                this.props.form.resetFields();
-                            }
+                const newKeys = Object.keys(updateObj);
+                if(newKeys.length > 0){
+                    Meteor.call('UserData.insert', updateObj, (error, result) => {
+                        if (error) {
+                          console.log(error)
                         }
-                    );
+                        else {
+                            newKeys.map((key) => {
+                                message.success(`${key[0].toUpperCase()}${key.slice(1)} successfully updated!`);
+                            })
+                        }
+                      });
+                }
+                if(values.email !== '' && (values.email !== this.props.user.emails[0].address)){
+                    console.log(Meteor.userId())
+                    
+                    Meteor.call('UserData.replaceEmail', values.email, (error, result) => {
+                        if (error) {
+                          console.log(error)
+                        }
+                        else {
+                          message.success('Email successfully updated!');
+                        }
+                    });
                 }
             }
         });
@@ -111,10 +142,14 @@ class Settings extends Component {
                                 </span>
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Email:">
-                                <Input
-                                    style={{ width: 400 }}
-                                    placeholder="example@email.com"
-                                />
+                                {getFieldDecorator('email', {
+                                    rules: [{ required: false }]
+                                })(
+                                    <Input
+                                        style={{ width: 400 }}
+                                        placeholder="example@email.com"
+                                    />
+                                )}
                             </Form.Item>
 
                             <Form.Item {...formItemLayout} label="Bio:">
@@ -130,7 +165,7 @@ class Settings extends Component {
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Website:">
                                 {getFieldDecorator('website', {
-                                    rules: [{ required: false }]
+                                        rules: [{ required: false }]
                                 })(
                                     <Input
                                         style={{ width: 275 }}
@@ -183,7 +218,8 @@ class Settings extends Component {
 }
 const mapStateToProps = state => {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        auth: state.auth
     };
 };
 

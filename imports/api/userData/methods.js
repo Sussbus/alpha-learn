@@ -1,4 +1,5 @@
 import { check } from 'meteor/check';
+import { Accounts } from 'meteor/accounts-base'
 
 Meteor.methods({
     'UserData.insert' (data) { //data param is an object to add to user profile
@@ -14,4 +15,11 @@ Meteor.methods({
   
       Meteor.users.update(this.userId, {$set: {profile: profile }});
     },
+    'UserData.replaceEmail' (newEmail) { //data param is an object to add to user profile
+        if (!Meteor.userId()) {
+          throw new Meteor.Error('not-authorized');
+        }
+        Accounts.removeEmail(Meteor.userId(), Meteor.user().emails[0].address)
+        Accounts.addEmail(Meteor.userId(), newEmail);
+      },
 });
