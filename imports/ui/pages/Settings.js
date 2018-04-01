@@ -61,27 +61,33 @@ class Settings extends Component {
         message.success('Profile successfully updated!');
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 var keys = Object.keys(values);
                 let updateObj = {};
 
-                keys.map((key) => {
-                    if (values[key] !== undefined){
-                        updateObj[key] = values[key]
+                keys.map(key => {
+                    if (values[key] !== undefined) {
+                        updateObj[key] = values[key];
                     }
                 });
-                if(Object.keys(updateObj).length > 0){
-                    Meteor.call('UserData.insert', updateObj, (error, result) => {
-                        if (error) {
-                          console.log(error)
+                if (Object.keys(updateObj).length > 0) {
+                    Meteor.call(
+                        'UserData.insert',
+                        updateObj,
+                        (error, result) => {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                message.success(
+                                    'Profile successfully updated!'
+                                );
+                                this.props.form.resetFields();
+                            }
                         }
-                        else {
-                          message.success('Profile successfully updated!');
-                        }
-                      });
+                    );
                 }
             }
         });
@@ -124,7 +130,7 @@ class Settings extends Component {
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Website:">
                                 {getFieldDecorator('website', {
-                                        rules: [{ required: false }]
+                                    rules: [{ required: false }]
                                 })(
                                     <Input
                                         style={{ width: 275 }}
