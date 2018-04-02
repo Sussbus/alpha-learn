@@ -19,6 +19,8 @@ Meteor.methods({
         if (!Meteor.userId()) {
           throw new Meteor.Error('not-authorized');
         }
+        if(newEmail === null) return;
+        
         Accounts.removeEmail(Meteor.userId(), Meteor.user().emails[0].address)
         Accounts.addEmail(Meteor.userId(), newEmail);
       },
