@@ -12,7 +12,7 @@ import {
     Checkbox
 } from 'antd';
 import { Link } from 'react-router-dom';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -27,20 +27,20 @@ class Login extends Component {
                     values.password,
                     function(error) {
                         if (error) {
-                            console.log(error)
+                            console.log(error);
                         } else {
                         }
                     }
                 );
-                this.props.history.push("/profile")
+                this.props.history.push('/profile');
             }
         });
     };
 
-    componentWillReceiveProps(newProps){
-        if(this.props.auth.user !== newProps.auth.user){
-            if(newProps.auth.user !== {}){
-                this.props.history.push("/profile")
+    componentWillReceiveProps(newProps) {
+        if (this.props.auth.user !== newProps.auth.user) {
+            if (newProps.auth.user !== {}) {
+                this.props.history.push('/profile');
             }
         }
     }
@@ -157,8 +157,7 @@ const mapStateToProps = state => {
     };
 };
 
-
-const doubleWrap = connect(mapStateToProps)(withRouter(Login))
+const doubleWrap = connect(mapStateToProps)(withRouter(Login));
 const WrappedLoginForm = Form.create()(doubleWrap);
 
 export default WrappedLoginForm;

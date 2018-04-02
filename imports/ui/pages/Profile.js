@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Col, Card, Avatar } from 'antd';
+import { Layout, Col, Row, Card, Avatar, Icon, Divider } from 'antd';
 import { connect } from 'react-redux';
 
 const { Content } = Layout;
@@ -19,8 +19,77 @@ const tabListNoTitle = [
     }
 ];
 
+createNewProject = () => {
+    //Need to add modal that pops up to create project
+    console.log('project being created...');
+};
+openProject = () => {
+    //Need to add modal that pops up with project info
+    console.log('project being opened...');
+};
+
 const contentListNoTitle = {
-    projects: <p>article content</p>,
+    projects: (
+        <Content>
+            <Row>
+                <a onClick={this.createNewProject}>
+                    <Col span={24}>
+                        <span
+                            style={{
+                                float: 'left',
+                                marginRight: 15,
+                                marginTop: 4
+                            }}
+                        >
+                            <Icon
+                                type="folder-add"
+                                style={{ fontSize: 24, color: '#475660' }}
+                            />
+                        </span>
+                        <h2 style={{ color: '#475660' }}>Create New Project</h2>
+                    </Col>
+                </a>
+            </Row>
+            <Divider type="horizontal" />
+            <Row>
+                <a onClick={this.openProject}>
+                    <Col span={1}>
+                        <Avatar
+                            size="large"
+                            src="https://kaggle2.blob.core.windows.net/datasets-images/3398/5506/dc5f350b189d3a41190660a37b8578a5/dataset-thumbnail.png"
+                        />
+                    </Col>
+                    <Col span={23}>
+                        <h4>SVHN Preprocessed Fragments</h4>
+                        <p style={{ color: 'gray' }}>
+                            Help classify different kinds of numbers. This will
+                            help make for math solving and website data
+                            scraping.
+                        </p>
+                    </Col>
+                </a>
+            </Row>
+            <Divider type="horizontal" />
+            <Row>
+                <a onClick={this.openProject}>
+                    <Col span={1}>
+                        <Avatar
+                            size="large"
+                            src="https://kaggle2.blob.core.windows.net/datasets-images/3398/5506/dc5f350b189d3a41190660a37b8578a5/dataset-thumbnail.png"
+                        />
+                    </Col>
+                    <Col span={23}>
+                        <h4>SVHN Preprocessed Fragments</h4>
+                        <p style={{ color: 'gray' }}>
+                            Help classify different kinds of numbers. This will
+                            help make for math solving and website data
+                            scraping.
+                        </p>
+                    </Col>
+                </a>
+            </Row>
+        </Content>
+    ),
     app: <p>app content</p>,
     project: <p>project content</p>
 };
@@ -32,7 +101,7 @@ class Profile extends Component {
     };
 
     state = {
-        key: 'app'
+        key: 'projects'
     };
 
     render() {

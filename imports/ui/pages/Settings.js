@@ -33,22 +33,22 @@ class Settings extends Component {
         confirmLoading: false
     };
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         const { auth } = this.props;
 
-        if(nextProps.auth.user !== this.props.user){
+        if (nextProps.auth.user !== this.props.user) {
             const profile = nextProps.auth.user.profile;
             const keys = Object.keys(profile);
-            keys.map((key) => {
-                if(profile[key] !== ''){
+            keys.map(key => {
+                if (profile[key] !== '') {
                     const newObj = {};
-                    newObj[key] = profile[key]
-                    this.props.form.setFieldsValue(newObj)
+                    newObj[key] = profile[key];
+                    this.props.form.setFieldsValue(newObj);
                 }
-            })
+            });
             const emailObj = {};
-            emailObj['email'] = nextProps.auth.user.emails[0].address
-            this.props.form.setFieldsValue(emailObj)
+            emailObj['email'] = nextProps.auth.user.emails[0].address;
+            this.props.form.setFieldsValue(emailObj);
         }
     }
 
@@ -81,44 +81,57 @@ class Settings extends Component {
         message.success('Profile successfully updated!');
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 var keys = Object.keys(values);
                 let updateObj = {};
 
-                keys.map((key) => {
-                    if (values[key] !== undefined && key !== 'email'){
-                        if(values[key] !== this.props.user.profile[key]){
-                            updateObj[key] = values[key]
+                keys.map(key => {
+                    if (values[key] !== undefined && key !== 'email') {
+                        if (values[key] !== this.props.user.profile[key]) {
+                            updateObj[key] = values[key];
                         }
                     }
                 });
                 const newKeys = Object.keys(updateObj);
-                if(newKeys.length > 0){
-                    Meteor.call('UserData.insert', updateObj, (error, result) => {
-                        if (error) {
-                          console.log(error)
+                if (newKeys.length > 0) {
+                    Meteor.call(
+                        'UserData.insert',
+                        updateObj,
+                        (error, result) => {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                newKeys.map(key => {
+                                    message.success(
+                                        `${key[0].toUpperCase()}${key.slice(
+                                            1
+                                        )} successfully updated!`
+                                    );
+                                });
+                            }
                         }
-                        else {
-                            newKeys.map((key) => {
-                                message.success(`${key[0].toUpperCase()}${key.slice(1)} successfully updated!`);
-                            })
-                        }
-                      });
+                    );
                 }
-                if(values.email !== '' && (values.email !== this.props.user.emails[0].address)){
-                    console.log(Meteor.userId())
-                    
-                    Meteor.call('UserData.replaceEmail', values.email, (error, result) => {
-                        if (error) {
-                          console.log(error)
+                if (
+                    values.email !== '' &&
+                    values.email !== this.props.user.emails[0].address
+                ) {
+                    console.log(Meteor.userId());
+
+                    Meteor.call(
+                        'UserData.replaceEmail',
+                        values.email,
+                        (error, result) => {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                message.success('Email successfully updated!');
+                            }
                         }
-                        else {
-                          message.success('Email successfully updated!');
-                        }
-                    });
+                    );
                 }
             }
         });
@@ -165,7 +178,7 @@ class Settings extends Component {
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Website:">
                                 {getFieldDecorator('website', {
-                                        rules: [{ required: false }]
+                                    rules: [{ required: false }]
                                 })(
                                     <Input
                                         style={{ width: 275 }}
