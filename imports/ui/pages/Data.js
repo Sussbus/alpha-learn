@@ -16,6 +16,7 @@ import {
   Modal,
   Slider
 } from "antd";
+import CopyToClipboard from "react-copy-to-clipboard";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { light } from "react-syntax-highlighter/styles/prism";
 
@@ -25,7 +26,8 @@ class Data extends Component {
   state = {
     loading: false,
     iconLoading: false,
-    visible: false
+    visible: false,
+    isCopied: false
   };
 
   enterLoading = () => {
@@ -45,6 +47,15 @@ class Data extends Component {
   };
   handleOk = () => {
     this.setState({ visible: false });
+  };
+
+  handleCopy = () => {
+    this.setState({ isCopied: true });
+    setTimeout(() => {
+      this.setState({
+        isCopied: false
+      });
+    }, 1200);
   };
 
   render() {
@@ -353,17 +364,22 @@ class Data extends Component {
                 <Slider step={5} tipFormatter={formatter} />
               </Col>
             </Row>
-            <Tooltip title="Copy">
-              <p
-                style={{
-                  position: "absolute",
-                  marginLeft: "89%",
-                  marginTop: 5,
-                  fontWeight: "500"
-                }}
+            <Tooltip visible={this.state.isCopied} title="Copied!">
+              <CopyToClipboard
+                text="This has been copied!"
+                onCopy={this.handleCopy}
               >
-                Copy
-              </p>
+                <p
+                  style={{
+                    position: "absolute",
+                    marginLeft: "89%",
+                    marginTop: 5,
+                    fontWeight: "500"
+                  }}
+                >
+                  Copy
+                </p>
+              </CopyToClipboard>
             </Tooltip>
             <SyntaxHighlighter
               language="javascript"
