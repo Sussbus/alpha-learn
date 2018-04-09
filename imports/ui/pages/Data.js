@@ -250,13 +250,7 @@ class Data extends Component {
                 <Col span={4}>
                   <Row type="flex" justify="end">
                     <Button.Group>
-                      <Button
-                        icon="play-circle-o"
-                        loading={this.state.iconLoading}
-                        onClick={this.enterLoading}
-                      >
-                        Train
-                      </Button>
+                      <Button icon="play-circle-o">Train</Button>
                       <Button icon="to-top">Request</Button>
                     </Button.Group>
                   </Row>
@@ -327,14 +321,14 @@ class Data extends Component {
                 <Col span={4}>
                   <Row type="flex" justify="end">
                     <Button.Group>
+                      <Button icon="play-circle-o">Train</Button>
                       <Button
-                        icon="play-circle-o"
+                        icon="to-top"
                         loading={this.state.iconLoading}
                         onClick={this.enterLoading}
                       >
-                        Train
+                        Request
                       </Button>
-                      <Button icon="to-top">Request</Button>
                     </Button.Group>
                   </Row>
                 </Col>
@@ -359,7 +353,6 @@ class Data extends Component {
                 <Slider step={5} tipFormatter={formatter} />
               </Col>
             </Row>
-            <p>Some contents...</p>
             <Tooltip title="Copy">
               <p
                 style={{
