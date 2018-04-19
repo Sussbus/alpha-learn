@@ -20,45 +20,61 @@ import NavBar from '../components/NavBar.js';
 const browserHistory = createBrowserHistory();
 
 class App extends Component {
-    render() {
-        return (
-            <Layout>
-                <Router history={browserHistory}>
-                    <div>
-                        <NavBar />
-                        <Content>
-                            <Switch>
-                                <Route exact path="/" component={Home} />
-                                <Route exact path="/login" component={Login} />
-                                <Route
-                                    exact
-                                    path="/signup"
-                                    component={SignUp}
-                                />
-                                <Route exact path="/data" component={Data} />
-                                <Route exact path="/api" component={API} />
-                                <Route
-                                    exact
-                                    path="/settings"
-                                    component={Settings}
-                                />
-                                <Route
-                                    exact
-                                    path="/profile"
-                                    component={Profile}
-                                />
-                                <Route component={NotFound} />
-                            </Switch>
-                        </Content>
-                    </div>
-                </Router>
-                <Footer style={{ textAlign: 'center' }}>
-                    &copy; 2018 BitByBite Inc. | About | Terms of Service |{' '}
-                    Privacy Policy
-                </Footer>
-            </Layout>
-        );
-    }
+	render() {
+		return (
+			<Layout>
+				<Router history={browserHistory}>
+					<div>
+						<NavBar />
+						<Content>
+							<Switch>
+								<Route
+									exact
+									path="/"
+									component={Home}
+								/>
+								<Route
+									exact
+									path="/login"
+									component={Login}
+								/>
+								<Route
+									exact
+									path="/signup"
+									component={SignUp}
+								/>
+								<Route
+									exact
+									path="/data"
+									component={Data}
+								/>
+								<Route
+									exact
+									path="/api"
+									component={API}
+								/>
+								<Route
+									exact
+									path="/settings"
+									component={Settings}
+								/>
+								<Route
+									exact
+									path="/profile"
+									component={Profile}
+								/>
+								<Route component={NotFound} />
+							</Switch>
+						</Content>
+					</div>
+				</Router>
+				<Footer style={{ textAlign: 'center' }}>
+					&copy; 2018 BitByBite Inc. | About | Terms of Service |{' '}
+					Privacy Policy
+				</Footer>
+			</Layout>
+		);
+	}
 }
 
 export default App;

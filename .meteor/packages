@@ -23,3 +23,7 @@ insecure@1.0.7                  # Allow all DB writes from clients (for prototyp
 accounts-password               # Contains a full system for password-based authentication
 meteortoys:allthings            # Dev tools for debugging
 momentjs:moment
+aldeed:simple-schema
+mdg:validated-method
+reywood:publish-composite
+aldeed:collection2

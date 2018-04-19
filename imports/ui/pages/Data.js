@@ -31,10 +31,26 @@ class Data extends Component {
 
 	handleOk = () => {
 		this.setState({ visible: false });
+		const params = {
+			title: 'Project title',
+			body: 'Project body',
+			tags: ['research', 'patterns', 'classification']
+		};
+		Meteor.call('Projects.insert', params, error => {
+			if (!error) {
+				console.log('Project added!');
+			} else {
+				console.log(error);
+			}
+		});
 	};
 	handleCancel = () => {
 		this.setState({ visible: false });
 	};
+
+	projectTitle = 'SVHN Preprocessed Fragments';
+	projectDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.';
+	projectCreator = 'Sussbus';
 
 	render() {
 		return (
@@ -70,8 +86,27 @@ class Data extends Component {
 					</Col>
 					<Row style={{ marginTop: '5%' }}>
 						<Col span={20} offset={2}>
-							<ProjectCard />
-							<ProjectCard />
+							<ProjectCard
+								projectTitle={this.projectTitle}
+								projectDescription={
+									this.projectDescription
+								}
+								projectCreator={this.projectCreator}
+							/>
+							<ProjectCard
+								projectTitle={this.projectTitle}
+								projectDescription={
+									this.projectDescription
+								}
+								projectCreator={this.projectCreator}
+							/>
+							<ProjectCard
+								projectTitle={this.projectTitle}
+								projectDescription={
+									this.projectDescription
+								}
+								projectCreator={this.projectCreator}
+							/>
 							<RequestData
 								visible={this.state.visible}
 								onOk={this.handleOk}

@@ -8,7 +8,10 @@ const ProjectCard = ({
 	requestData,
 	isTrainingLoading,
 	loadTraining,
-	startTraining
+	startTraining,
+	projectTitle,
+	projectDescription,
+	projectCreator
 }) => {
 	return (
 		<Card style={{ marginTop: 10 }} bodyStyle={{ paddingRight: 0 }}>
@@ -42,17 +45,11 @@ const ProjectCard = ({
 			</Col>
 			<Col span={16}>
 				<Row style={{ marginBottom: 5 }}>
-					<h1 style={{ color: '#36454f' }}>
-						SVHN Preprocessed Fragments
-					</h1>
+					<h1 style={{ color: '#36454f' }}>{projectTitle}</h1>
 				</Row>
 				<Row>
 					<p style={{ color: '#36454f' }}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing
-						elit, sed do eiusmod tempor incididunt ut labore
-						et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut
-						aliquip ex.
+						{projectDescription}
 					</p>
 				</Row>
 				<Row style={{ marginTop: 10 }}>
@@ -66,7 +63,7 @@ const ProjectCard = ({
 						>
 							SU
 						</Avatar>
-						<b>Sussbus</b>
+						<b>{projectCreator}</b>
 					</Col>
 					<Col>created 10 days ago</Col>
 				</Row>
