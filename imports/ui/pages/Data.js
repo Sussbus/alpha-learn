@@ -26,7 +26,7 @@ const { Content } = Layout;
 
 class Data extends Component {
 	state = {
-		visible: true
+		visible: false
 	};
 
 	handleOk = () => {
