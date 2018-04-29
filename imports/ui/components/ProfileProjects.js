@@ -1,8 +1,23 @@
-import React from 'react';
-import { Modal, Layout, Row, Col, Icon, Divider, Avatar, Button } from 'antd';
-import { withState, withHandlers, compose } from 'recompose';
+import React, { Fragment } from 'react';
+import {
+	Modal,
+	Layout,
+	Row,
+	Col,
+	Icon,
+	Divider,
+	Avatar,
+	Button,
+	Spin
+} from 'antd';
+import { withState, withHandlers, mapProps, compose } from 'recompose';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import CreateProject from './CreateProject';
+import ProfileProjectCard from './ProfileProjectCard';
+import EmptyStatus from './EmptyStatus';
+
+import { Projects } from '../../api/projects/projects';
 
 const { Content } = Layout;
 
@@ -11,7 +26,9 @@ const ProfileProjects = ({
 	createProject,
 	createNewProject,
 	handleOk,
-	handleCancel
+	handleCancel,
+	projects,
+	loading
 }) => {
 	return (
 		<Content>
@@ -38,69 +55,27 @@ const ProfileProjects = ({
 						</h2>
 					</Col>
 				</a>
-			</Row>
-			<Divider type="horizontal" />
-			<Row>
 				<CreateProject
 					onOk={handleOk}
 					onCancel={handleCancel}
 					visible={isOpen}
 				/>
-				<a onClick={createNewProject}>
-					<Col span={1}>
-						<Avatar
-							size="large"
-							src="https://kaggle2.blob.core.windows.net/datasets-images/3398/5506/dc5f350b189d3a41190660a37b8578a5/dataset-thumbnail.png"
-						/>
-					</Col>
-					<Col span={23}>
-						<h4>SVHN Preprocessed Fragments</h4>
-						<p style={{ color: 'gray' }}>
-							Help classify different kinds of numbers.
-							This will help make for math solving and
-							website data scraping.
-						</p>
-					</Col>
-				</a>
 			</Row>
-			<Divider type="horizontal" />
-			<Row>
-				<a onClick={null}>
-					<Col span={1}>
-						<Avatar
-							size="large"
-							src="https://kaggle2.blob.core.windows.net/datasets-images/3398/5506/dc5f350b189d3a41190660a37b8578a5/dataset-thumbnail.png"
-						/>
-					</Col>
-					<Col span={23}>
-						<h4>SVHN Preprocessed Fragments</h4>
-						<p style={{ color: 'gray' }}>
-							Help classify different kinds of numbers.
-							This will help make for math solving and
-							website data scraping.
-						</p>
-					</Col>
-				</a>
-			</Row>
-			<Divider type="horizontal" />
-			<Row>
-				<a onClick={null}>
-					<Col span={1}>
-						<Avatar
-							size="large"
-							src="https://kaggle2.blob.core.windows.net/datasets-images/3398/5506/dc5f350b189d3a41190660a37b8578a5/dataset-thumbnail.png"
-						/>
-					</Col>
-					<Col span={23}>
-						<h4>SVHN Preprocessed Fragments</h4>
-						<p style={{ color: 'gray' }}>
-							Help classify different kinds of numbers.
-							This will help make for math solving and
-							website data scraping.
-						</p>
-					</Col>
-				</a>
-			</Row>
+			{loading ? (
+				<Col span={24} offset={12} style={{ marginTop: 10 }}>
+					<Spin />
+				</Col>
+			) : null}
+			{projects.length == 0 ? <EmptyStatus /> : null}
+			{projects.map(project => (
+				<Fragment key={project._id}>
+					<Divider type="horizontal" />
+					<ProfileProjectCard
+						projectTitle={project.project_title}
+						projectBody={project.project_body}
+					/>
+				</Fragment>
+			))}
 		</Content>
 	);
 };
@@ -117,7 +92,22 @@ const enhance = compose(
 		handleCancel: props => event => {
 			props.createProject(false);
 		}
-	})
+	}),
+	mapProps(ownProps => ({
+		...ownProps,
+		projects: ownProps.projects,
+		loading: ownProps.loading
+	}))
 );
+const EnhancedProfileProjects = enhance(ProfileProjects);
 
-export default enhance(ProfileProjects);
+export default withTracker(() => {
+	const handle = Meteor.subscribe('Projects.pub.list');
+	const loading = !handle.ready();
+
+	return {
+		projects: Projects.find({ user_id: Meteor.userId() }).fetch(),
+		user: Meteor.user(),
+		loading: loading
+	};
+})(EnhancedProfileProjects);

@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
-import {
-	Card,
-	Icon,
-	Layout,
-	Row,
-	Col,
-	Input,
-	Tooltip,
-	Progress,
-	Button,
-	Divider,
-	Avatar,
-	Tag,
-	Select,
-	Modal,
-	Slider
-} from 'antd';
+import { Layout, Row, Col, Input, Select, Spin } from 'antd';
+import { withTracker } from 'meteor/react-meteor-data';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { light } from 'react-syntax-highlighter/styles/prism';
+import moment from 'moment';
+
 import ProjectCard from '../components/ProjectCard';
 import RequestData from '../components/RequestData';
+
+import { Projects } from '../../api/projects/projects';
 
 const { Content } = Layout;
 
@@ -46,13 +35,12 @@ class Data extends Component {
 	};
 	handleCancel = () => {
 		this.setState({ visible: false });
+		console.log('canceled');
 	};
 
-	projectTitle = 'SVHN Preprocessed Fragments';
-	projectDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.';
-	projectCreator = 'Sussbus';
-
 	render() {
+		const { projects, loading } = this.props;
+
 		return (
 			<Layout>
 				<Content>
@@ -86,27 +74,30 @@ class Data extends Component {
 					</Col>
 					<Row style={{ marginTop: '5%' }}>
 						<Col span={20} offset={2}>
-							<ProjectCard
-								projectTitle={this.projectTitle}
-								projectDescription={
-									this.projectDescription
-								}
-								projectCreator={this.projectCreator}
-							/>
-							<ProjectCard
-								projectTitle={this.projectTitle}
-								projectDescription={
-									this.projectDescription
-								}
-								projectCreator={this.projectCreator}
-							/>
-							<ProjectCard
-								projectTitle={this.projectTitle}
-								projectDescription={
-									this.projectDescription
-								}
-								projectCreator={this.projectCreator}
-							/>
+							{loading ? (
+								<Col
+									span={24}
+									offset={12}
+									style={{ marginTop: 10 }}
+								>
+									<Spin />
+								</Col>
+							) : null}
+							{projects.map(project => (
+								<ProjectCard
+									key={project._id}
+									projectTitle={
+										project.project_title
+									}
+									projectDescription={
+										project.project_body
+									}
+									projectCreator="Sussbus"
+									timeStamp={moment(
+										project.createdAt
+									).fromNow()}
+								/>
+							))}
 							<RequestData
 								visible={this.state.visible}
 								onOk={this.handleOk}
@@ -119,4 +110,14 @@ class Data extends Component {
 		);
 	}
 }
-export default Data;
+
+export default (DataContainer = withTracker(() => {
+	const handle = Meteor.subscribe('Projects.pub.list');
+	const loading = !handle.ready();
+
+	return {
+		projects: Projects.find({}, { sort: { createdAt: -1 } }).fetch(),
+		user: Meteor.user(),
+		loading: loading
+	};
+})(Data));

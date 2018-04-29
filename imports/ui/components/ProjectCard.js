@@ -11,7 +11,8 @@ const ProjectCard = ({
 	startTraining,
 	projectTitle,
 	projectDescription,
-	projectCreator
+	projectCreator,
+	timeStamp
 }) => {
 	return (
 		<Card style={{ marginTop: 10 }} bodyStyle={{ paddingRight: 0 }}>
@@ -65,7 +66,7 @@ const ProjectCard = ({
 						</Avatar>
 						<b>{projectCreator}</b>
 					</Col>
-					<Col>created 10 days ago</Col>
+					<Col>{timeStamp}</Col>
 				</Row>
 				<Row style={{ marginTop: 15 }}>
 					<Tag color="blue">research</Tag>
