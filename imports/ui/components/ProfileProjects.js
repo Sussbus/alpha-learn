@@ -66,7 +66,7 @@ const ProfileProjects = ({
 					<Spin />
 				</Col>
 			) : null}
-			{projects.length == 0 ? <EmptyStatus /> : null}
+			{projects.length == 0 && !loading ? <EmptyStatus /> : null}
 			{projects.map(project => (
 				<Fragment key={project._id}>
 					<Divider type="horizontal" />

@@ -5,6 +5,7 @@ const { Header, Content, Footer } = Layout;
 
 import { Router, Route, Switch, Link } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 import Home from '../pages/Home.js';
 import Login from '../pages/Login.js';
@@ -16,8 +17,11 @@ import Data from '../pages/Data.js';
 import NotFound from '../pages/NotFound.js';
 
 import NavBar from '../components/NavBar.js';
+import store from '../../store/store';
 
 const browserHistory = createBrowserHistory();
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 class App extends Component {
 	render() {
