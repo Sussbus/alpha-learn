@@ -1,99 +1,99 @@
-import React, { Component } from 'react';
-import { Layout, Col, Row, Card, Avatar, Icon, Divider } from 'antd';
-import { connect } from 'react-redux';
+import React, { Component } from "react"
+import { Layout, Col, Row, Card, Avatar, Icon, Divider } from "antd"
+import { connect } from "react-redux"
 
-import ProfileProjects from '../components/ProfileProjects';
+import ProjectsTab from "../components/ProjectsTab"
 
-import CreateProject from '../components/CreateProject';
+import CreateProject from "../components/CreateProject"
 
-const { Content } = Layout;
+const { Content } = Layout
 
 const tabListNoTitle = [
-	{
-		key: 'projects',
-		tab: 'Projects'
-	},
-	{
-		key: 'app',
-		tab: 'app'
-	},
-	{
-		key: 'project',
-		tab: 'project'
-	}
-];
+    {
+        key: "projects",
+        tab: "Projects"
+    },
+    {
+        key: "data",
+        tab: "Data"
+    },
+    {
+        key: "shells",
+        tab: "Shells"
+    }
+]
 
 createNewProject = () => {
-	//Need to add modal that pops up to create project
-	console.log('project being created...');
-};
+    //Need to add modal that pops up to create project
+    console.log("project being created...")
+}
 openProject = () => {
-	//Need to add modal that pops up with project info
-	console.log('project being opened...');
-};
+    //Need to add modal that pops up with project info
+    console.log("project being opened...")
+}
 
 const contentListNoTitle = {
-	projects: <ProfileProjects />,
-	app: <p>app content</p>,
-	project: <p>project content</p>
-};
+    projects: <ProjectsTab />,
+    data: <p>Data content</p>,
+    shells: <p>Shells content</p>
+}
 
 class Profile extends Component {
-	onTabChange = (key, type) => {
-		console.log(key, type);
-		this.setState({ [type]: key });
-	};
+    onTabChange = (key, type) => {
+        console.log(key, type)
+        this.setState({ [type]: key })
+    }
 
-	state = {
-		key: 'projects',
-		isOpen: false
-	};
+    state = {
+        key: "projects",
+        isOpen: false
+    }
 
-	render() {
-		return (
-			<Content style={{ width: '100%', marginTop: 15 }}>
-				<Col span={20} offset={2}>
-					<h1>Profile</h1>
-					<Card
-						title={
-							<span>
-								<h1 style={{ marginBottom: 0 }}>
-									{this.props.user.username}
-								</h1>
-								<span
-									style={{
-										color: 'gray',
-										fontSize: 12,
-										marginTop: 0
-									}}
-								>
-									#32131
-								</span>
-							</span>
-						}
-						style={{ width: '100%' }}
-						tabList={tabListNoTitle}
-						activeTabKey={this.state.key}
-						onTabChange={key => {
-							this.onTabChange(key, 'key');
-						}}
-					>
-						{contentListNoTitle[this.state.key]}
-					</Card>
-				</Col>
-			</Content>
-		);
-	}
+    render() {
+        return (
+            <Content style={{ width: "100%", marginTop: 15 }}>
+                <Col span={20} offset={2}>
+                    <h1>Profile</h1>
+                    <Card
+                        title={
+                            <span>
+                                <h1 style={{ marginBottom: 0 }}>
+                                    {this.props.user.username}
+                                </h1>
+                                <span
+                                    style={{
+                                        color: "gray",
+                                        fontSize: 12,
+                                        marginTop: 0
+                                    }}
+                                >
+                                    #32131
+                                </span>
+                            </span>
+                        }
+                        style={{ width: "100%" }}
+                        tabList={tabListNoTitle}
+                        activeTabKey={this.state.key}
+                        onTabChange={key => {
+                            this.onTabChange(key, "key")
+                        }}
+                    >
+                        {contentListNoTitle[this.state.key]}
+                    </Card>
+                </Col>
+            </Content>
+        )
+    }
 }
 
 const mapStateToProps = state => {
-	return {
-		user: state.auth.user
-	};
-};
+    return {
+        user: state.auth.user
+    }
+}
 
 const mapDispatchToProps = dispatch => {
-	return {};
-};
+    return {}
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
