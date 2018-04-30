@@ -13,11 +13,11 @@ import {
 import { withState, withHandlers, mapProps, compose } from "recompose"
 import { withTracker } from "meteor/react-meteor-data"
 
-import CreateProject from "./CreateProject"
-import ProfileProjectCard from "./ProfileProjectCard"
-import EmptyStatus from "./EmptyStatus"
+import CreateProject from "../CreateProject"
+import ProfileProjectCard from "../ProfileProjectCard"
+import EmptyStatus from "../EmptyStatus"
 
-import { Projects } from "../../api/projects/projects"
+import { Projects } from "../../../api/projects/projects"
 
 const { Content } = Layout
 
@@ -60,20 +60,21 @@ const ProjectsTab = ({
                 />
             </Row>
             {loading ? (
-                <Col span={24} offset={12} style={{ marginTop: 10 }}>
+                <Col span={24} offset={12} style={{ marginTop: "5%" }}>
                     <Spin />
                 </Col>
-            ) : null}
-            {projects.length == 0 && !loading ? <EmptyStatus /> : null}
-            {projects.map(project => (
-                <Fragment key={project._id}>
-                    <Divider type="horizontal" />
-                    <ProfileProjectCard
-                        projectTitle={project.project_title}
-                        projectBody={project.project_body}
-                    />
-                </Fragment>
-            ))}
+            ) : (
+                projects.map(project => (
+                    <Fragment key={project._id}>
+                        <Divider type="horizontal" />
+                        <ProfileProjectCard
+                            projectTitle={project.project_title}
+                            projectBody={project.project_body}
+                        />
+                    </Fragment>
+                ))
+            )}
+            {projects.length == 0 && !loading && <EmptyStatus />}
         </Content>
     )
 }

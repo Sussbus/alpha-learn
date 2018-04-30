@@ -24,7 +24,15 @@ const ProjectCard = ({
                         type="hdd"
                         style={{ color: "#36454f", fontSize: 16 }}
                     />{" "}
-                    23 MB
+                    <span
+                        style={{
+                            MozUserSelect: "none",
+                            WebkitUserSelect: "none",
+                            msUserSelect: "none"
+                        }}
+                    >
+                        23 MB
+                    </span>
                 </Row>
                 <Row style={{ marginBottom: 27 }}>
                     <Tooltip placement="left" title="57% labeled">
@@ -32,7 +40,15 @@ const ProjectCard = ({
                             type="file-text"
                             style={{ color: "#36454f", fontSize: 16 }}
                         />{" "}
-                        {numberLabeled} labeled
+                        <span
+                            style={{
+                                MozUserSelect: "none",
+                                WebkitUserSelect: "none",
+                                msUserSelect: "none"
+                            }}
+                        >
+                            {numberLabeled} labeled
+                        </span>
                     </Tooltip>
                 </Row>
                 <Row>
@@ -42,8 +58,17 @@ const ProjectCard = ({
                             color: "#36454f",
                             fontSize: 18
                         }}
-                    />{" "}
-                    34 participants
+                    />
+                    <span
+                        style={{
+                            MozUserSelect: "none",
+                            WebkitUserSelect: "none",
+                            msUserSelect: "none"
+                        }}
+                    >
+                        {" "}
+                        34 participants
+                    </span>
                 </Row>
             </Col>
             <Col span={16}>
@@ -54,7 +79,14 @@ const ProjectCard = ({
                     <p style={{ color: "#36454f" }}>{projectDescription}</p>
                 </Row>
                 <Row style={{ marginTop: 10 }}>
-                    <Col span={4}>
+                    <Col
+                        span={4}
+                        style={{
+                            MozUserSelect: "none",
+                            WebkitUserSelect: "none",
+                            msUserSelect: "none"
+                        }}
+                    >
                         <Avatar
                             size="small"
                             style={{

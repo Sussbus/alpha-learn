@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import { Layout, Col, Row, Card, Avatar, Icon, Divider } from "antd"
 import { connect } from "react-redux"
 
-import ProjectsTab from "../components/ProjectsTab"
+import ProjectsTab from "../components/ProfileTabs/ProjectsTab"
+import DataTab from "../components/ProfileTabs/DataTab"
 
 import CreateProject from "../components/CreateProject"
 
@@ -34,7 +35,7 @@ openProject = () => {
 
 const contentListNoTitle = {
     projects: <ProjectsTab />,
-    data: <p>Data content</p>,
+    data: <DataTab />,
     shells: <p>Shells content</p>
 }
 
