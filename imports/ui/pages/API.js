@@ -113,7 +113,13 @@ class API extends Component {
                                     <Anchor.Link href="#" title="Title" />
                                 </Anchor>
                             </div>
-                            <div style={{ float: 'left', width: '80%' }}>
+                            <div
+                                style={{
+                                    float: 'left',
+                                    width: '80%',
+                                    paddingBottom: 30
+                                }}
+                            >
                                 {API_Content[this.state.key]}
                             </div>
                         </div>

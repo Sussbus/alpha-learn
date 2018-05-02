@@ -13,7 +13,7 @@ const CodeBlock = ({ value, isCopied, handleCopy }) => {
                     <p
                         style={{
                             position: 'absolute',
-                            marginLeft: '62.3%',
+                            marginLeft: '56.5%',
                             marginTop: 5,
                             fontWeight: '600'
                         }}
