@@ -16,6 +16,7 @@ const ImageClassificiation = ({
                     style={{
                         fontSize: 16,
                         color: 'gray',
+                        marginBottom: 2,
                         MozUserSelect: 'none',
                         WebkitUserSelect: 'none',
                         msUserSelect: 'none'
@@ -28,7 +29,7 @@ const ImageClassificiation = ({
                         <Radio
                             style={{
                                 display: 'block',
-                                lineHeight: 3,
+                                lineHeight: 2.5,
                                 fontSize: 16
                             }}
                             value="model-x"
@@ -38,7 +39,7 @@ const ImageClassificiation = ({
                         <Radio
                             style={{
                                 display: 'block',
-                                lineHeight: 3,
+                                lineHeight: 2.5,
                                 fontSize: 16
                             }}
                             value="model-s"
@@ -48,7 +49,7 @@ const ImageClassificiation = ({
                         <Radio
                             style={{
                                 display: 'block',
-                                lineHeight: 3,
+                                lineHeight: 2.5,
                                 fontSize: 16
                             }}
                             value="model-3"
@@ -57,11 +58,12 @@ const ImageClassificiation = ({
                         </Radio>
                     </Radio.Group>
                 </Row>
-                <Row style={{ marginTop: 35, marginBottom: 20 }}>
+                <Row style={{ marginTop: '15%', marginBottom: 15 }}>
                     <p
                         style={{
                             fontSize: 16,
                             color: 'gray',
+                            marginBottom: 2,
                             MozUserSelect: 'none',
                             WebkitUserSelect: 'none',
                             msUserSelect: 'none'
@@ -75,14 +77,17 @@ const ImageClassificiation = ({
                         value={currentOptions}
                     >
                         <Col span={24}>
-                            <Checkbox value="blurry" style={{ lineHeight: 3 }}>
+                            <Checkbox
+                                value="blurry"
+                                style={{ lineHeight: 2.5 }}
+                            >
                                 Blurry
                             </Checkbox>
                         </Col>
                         <Col span={24}>
                             <Checkbox
                                 value="over-saturated"
-                                style={{ lineHeight: 3 }}
+                                style={{ lineHeight: 2.5 }}
                             >
                                 Over Saturated
                             </Checkbox>
@@ -90,7 +95,7 @@ const ImageClassificiation = ({
                         <Col spn={24}>
                             <Checkbox
                                 value="pixelated"
-                                style={{ lineHeight: 3 }}
+                                style={{ lineHeight: 2.5 }}
                             >
                                 Pixelated
                             </Checkbox>
@@ -120,7 +125,6 @@ enhance = compose(
     withHandlers({
         handleSelect: props => event => {
             props.selectItem(event.target.value)
-            console.log('selected')
         },
         addOption: props => event => {
             props.selectOption(event)

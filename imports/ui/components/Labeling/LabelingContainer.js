@@ -14,11 +14,17 @@ const LabelingContainer = ({ labelType, visible, stopTraining }) => {
             title={
                 <Row style={{ height: 25 }}>
                     <Col span={20}>
-                        <p style={{ fontSize: 16, fontWeight: '600' }}>
+                        <p
+                            style={{
+                                fontSize: 16,
+                                fontWeight: '600',
+                                marginTop: '0.3%'
+                            }}
+                        >
                             Labeling - SVHN Preprocessed Fragments
                         </p>
                     </Col>
-                    <Col span={2} style={{ marginLeft: 26 }}>
+                    <Col span={2} style={{ marginLeft: '3.2%' }}>
                         <Popconfirm
                             title="Are you would like to stop training?"
                             okText="Yes"
@@ -26,7 +32,7 @@ const LabelingContainer = ({ labelType, visible, stopTraining }) => {
                             placement="bottomLeft"
                             onConfirm={stopTraining}
                         >
-                            <Button style={{ top: -3 }} type="danger">
+                            <Button style={{ top: -4 }} type="danger">
                                 Stop Training
                             </Button>
                         </Popconfirm>
