@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Layout, Row, Col, Input, Select, Spin, Button, Tag } from 'antd'
 import { withTracker } from 'meteor/react-meteor-data'
+import { connect } from 'react-redux'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { light } from 'react-syntax-highlighter/styles/prism'
@@ -17,7 +18,8 @@ const { Content } = Layout
 
 class Data extends Component {
     state = {
-        visible: false
+        visible: false,
+        isTraining: false
     }
 
     handleOk = () => {
@@ -42,8 +44,20 @@ class Data extends Component {
         console.log('canceled')
     }
 
+    startTraining = () => {
+        setTimeout(() => {
+            this.setState({ isTraining: true })
+        }, 1500)
+    }
+
+    requestData = () => {
+        setTimeout(() => {
+            this.setState({ visible: true })
+        }, 1500)
+    }
+
     render() {
-        const { projects, loading } = this.props
+        const { projects, loading, isTraining } = this.props
         const colors = [
             'blue',
             'geekblue',
@@ -109,16 +123,22 @@ class Data extends Component {
                                             }
                                         )}
                                         numberLabeled={project.labeled}
+                                        handleTrainingRequest={
+                                            this.startTraining
+                                        }
+                                        handleDataRequest={this.RequestData}
                                     />
                                 ))
                             )}
 
                             <RequestData
-                                visible={this.state.visible}
                                 onOk={this.handleOk}
                                 onCancel={this.handleCancel}
                             />
-                            <LabelingContainer labelType="image-classification" />
+                            <LabelingContainer
+                                visible={isTraining}
+                                labelType="image-classification"
+                            />
                         </Col>
                     </Row>
                 </Content>
@@ -126,6 +146,18 @@ class Data extends Component {
         )
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isTraining: state.training.isTraining
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {}
+}
+
+const ConnectData = connect(mapStateToProps, mapDispatchToProps)(Data)
 
 export default (DataContainer = withTracker(() => {
     const handle = Meteor.subscribe('Projects.pub.list')
@@ -137,4 +169,4 @@ export default (DataContainer = withTracker(() => {
         user: Meteor.user(),
         loading: loading
     }
-})(Data))
+})(ConnectData))

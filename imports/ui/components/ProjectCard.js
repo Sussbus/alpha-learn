@@ -1,6 +1,8 @@
-import React from "react"
-import { Card, Col, Row, Icon, Avatar, Button, Tag, Tooltip } from "antd"
-import { withState, withHandlers, compose, mapProps } from "recompose"
+import React from 'react'
+import { Card, Col, Row, Icon, Avatar, Button, Tag, Tooltip } from 'antd'
+import { withState, withHandlers, compose, mapProps } from 'recompose'
+import store from '../../store/store'
+import { startTraining } from '../../actions/training'
 
 const ProjectCard = ({
     isRequestLoading,
@@ -14,21 +16,23 @@ const ProjectCard = ({
     projectCreator,
     timeStamp,
     projectTags,
-    numberLabeled
+    numberLabeled,
+    handleTrainingRequest,
+    handleLabelingRequest
 }) => {
     return (
         <Card style={{ marginTop: 10 }} bodyStyle={{ paddingRight: 0 }}>
             <Col span={3} style={{ marginRight: 20 }}>
-                <Row style={{ marginBottom: 27, marginTop: "15%" }}>
+                <Row style={{ marginBottom: 27, marginTop: '15%' }}>
                     <Icon
                         type="hdd"
-                        style={{ color: "#36454f", fontSize: 16 }}
-                    />{" "}
+                        style={{ color: '#36454f', fontSize: 16 }}
+                    />{' '}
                     <span
                         style={{
-                            MozUserSelect: "none",
-                            WebkitUserSelect: "none",
-                            msUserSelect: "none"
+                            MozUserSelect: 'none',
+                            WebkitUserSelect: 'none',
+                            msUserSelect: 'none'
                         }}
                     >
                         23 MB
@@ -38,13 +42,13 @@ const ProjectCard = ({
                     <Tooltip placement="left" title="57% labeled">
                         <Icon
                             type="file-text"
-                            style={{ color: "#36454f", fontSize: 16 }}
-                        />{" "}
+                            style={{ color: '#36454f', fontSize: 16 }}
+                        />{' '}
                         <span
                             style={{
-                                MozUserSelect: "none",
-                                WebkitUserSelect: "none",
-                                msUserSelect: "none"
+                                MozUserSelect: 'none',
+                                WebkitUserSelect: 'none',
+                                msUserSelect: 'none'
                             }}
                         >
                             {numberLabeled} labeled
@@ -55,42 +59,42 @@ const ProjectCard = ({
                     <Icon
                         type="eye-o"
                         style={{
-                            color: "#36454f",
+                            color: '#36454f',
                             fontSize: 18
                         }}
                     />
                     <span
                         style={{
-                            MozUserSelect: "none",
-                            WebkitUserSelect: "none",
-                            msUserSelect: "none"
+                            MozUserSelect: 'none',
+                            WebkitUserSelect: 'none',
+                            msUserSelect: 'none'
                         }}
                     >
-                        {" "}
+                        {' '}
                         34 participants
                     </span>
                 </Row>
             </Col>
             <Col span={16}>
                 <Row style={{ marginBottom: 5 }}>
-                    <h1 style={{ color: "#36454f" }}>{projectTitle}</h1>
+                    <h1 style={{ color: '#36454f' }}>{projectTitle}</h1>
                 </Row>
                 <Row>
-                    <p style={{ color: "#36454f" }}>{projectDescription}</p>
+                    <p style={{ color: '#36454f' }}>{projectDescription}</p>
                 </Row>
                 <Row style={{ marginTop: 10 }}>
                     <Col
                         span={4}
                         style={{
-                            MozUserSelect: "none",
-                            WebkitUserSelect: "none",
-                            msUserSelect: "none"
+                            MozUserSelect: 'none',
+                            WebkitUserSelect: 'none',
+                            msUserSelect: 'none'
                         }}
                     >
                         <Avatar
                             size="small"
                             style={{
-                                backgroundColor: "#36454f",
+                                backgroundColor: '#36454f',
                                 marginRight: 10
                             }}
                         >
@@ -126,8 +130,8 @@ const ProjectCard = ({
     )
 }
 const enhance = compose(
-    withState("isRequestLoading", "loadRequest", false),
-    withState("isTrainingLoading", "loadTraining", false),
+    withState('isRequestLoading', 'loadRequest', false),
+    withState('isTrainingLoading', 'loadTraining', false),
     withHandlers({
         requestData: props => event => {
             props.loadRequest(true)
@@ -139,8 +143,10 @@ const enhance = compose(
             props.loadTraining(true)
             setTimeout(function() {
                 props.loadTraining(false)
+                store.dispatch(startTraining('da29djdal12ija'))
             }, 1500)
         }
     })
 )
+
 export default enhance(ProjectCard)
