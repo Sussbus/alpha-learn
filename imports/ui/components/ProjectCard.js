@@ -3,6 +3,7 @@ import { Card, Col, Row, Icon, Avatar, Button, Tag, Tooltip } from 'antd'
 import { withState, withHandlers, compose, mapProps } from 'recompose'
 import store from '../../store/store'
 import { startTraining } from '../../actions/training'
+import { requestData } from '../../actions/dataRequest'
 
 const ProjectCard = ({
     isRequestLoading,
@@ -137,6 +138,7 @@ const enhance = compose(
             props.loadRequest(true)
             setTimeout(function() {
                 props.loadRequest(false)
+                store.dispatch(requestData('da29djdal12ija'))
             }, 1500)
         },
         startTraining: props => event => {

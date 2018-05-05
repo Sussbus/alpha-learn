@@ -134,6 +134,7 @@ class Data extends Component {
                             <RequestData
                                 onOk={this.handleOk}
                                 onCancel={this.handleCancel}
+                                visible={this.props.isRequestingData}
                             />
                             <LabelingContainer
                                 visible={isTraining}
@@ -149,7 +150,8 @@ class Data extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isTraining: state.training.isTraining
+        isTraining: state.training.isTraining,
+        isRequestingData: state.dataRequest.isRequestingData
     }
 }
 

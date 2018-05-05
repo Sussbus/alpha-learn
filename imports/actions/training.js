@@ -7,8 +7,7 @@ export function startTraining(postId) {
             type: 'START_TRAINING',
             data: {
                 user: Meteor.user(),
-                postId: postId,
-                isTraining: true
+                postId: postId
             }
         })
     }
