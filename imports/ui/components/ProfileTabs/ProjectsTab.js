@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment } from 'react'
 import {
     Modal,
     Layout,
@@ -9,15 +9,16 @@ import {
     Avatar,
     Button,
     Spin
-} from "antd"
-import { withState, withHandlers, mapProps, compose } from "recompose"
-import { withTracker } from "meteor/react-meteor-data"
+} from 'antd'
+import { withState, withHandlers, mapProps, compose } from 'recompose'
+import { withTracker } from 'meteor/react-meteor-data'
 
-import CreateProject from "../CreateProject"
-import ProfileProjectCard from "../ProfileProjectCard"
-import EmptyStatus from "../EmptyStatus"
+import CreateProject from '../CreateProject'
+import ProjectOverview from '../ProjectOverview'
+import ProfileProjectCard from '../ProfileProjectCard'
+import EmptyStatus from '../EmptyStatus'
 
-import { Projects } from "../../../api/projects/projects"
+import { Projects } from '../../../api/projects/projects'
 
 const { Content } = Layout
 
@@ -28,7 +29,9 @@ const ProjectsTab = ({
     handleOk,
     handleCancel,
     projects,
-    loading
+    loading,
+    projectOverviewVisible,
+    cancelProjectOverview
 }) => {
     return (
         <Content>
@@ -37,7 +40,7 @@ const ProjectsTab = ({
                     <Col span={24}>
                         <span
                             style={{
-                                float: "left",
+                                float: 'left',
                                 marginRight: 15,
                                 marginTop: 4
                             }}
@@ -46,11 +49,11 @@ const ProjectsTab = ({
                                 type="folder-add"
                                 style={{
                                     fontSize: 24,
-                                    color: "#475660"
+                                    color: '#475660'
                                 }}
                             />
                         </span>
-                        <h2 style={{ color: "#475660" }}>Create New Project</h2>
+                        <h2 style={{ color: '#475660' }}>Create New Project</h2>
                     </Col>
                 </a>
                 <CreateProject
@@ -58,9 +61,13 @@ const ProjectsTab = ({
                     onCancel={handleCancel}
                     visible={isOpen}
                 />
+                <ProjectOverview
+                    visible={projectOverviewVisible}
+                    onCancel={cancelProjectOverview}
+                />
             </Row>
             {loading ? (
-                <Col span={24} offset={12} style={{ marginTop: "5%" }}>
+                <Col span={24} offset={12} style={{ marginTop: '5%' }}>
                     <Spin />
                 </Col>
             ) : (
@@ -80,7 +87,8 @@ const ProjectsTab = ({
 }
 
 const enhance = compose(
-    withState("isOpen", "createProject", false),
+    withState('isOpen', 'createProject', false),
+    withState('projectOverviewVisible', 'toggleProjectOverview', true),
     withHandlers({
         createNewProject: props => event => {
             props.createProject(true)
@@ -90,6 +98,12 @@ const enhance = compose(
         },
         handleCancel: props => event => {
             props.createProject(false)
+        },
+        openProjectOverview: props => event => {
+            props.toggleProjectOverview(true)
+        },
+        cancelProjectOverview: props => event => {
+            props.toggleProjectOverview(false)
         }
     }),
     mapProps(ownProps => ({
@@ -101,7 +115,7 @@ const enhance = compose(
 const EnhancedProjectsTab = enhance(ProjectsTab)
 
 export default withTracker(() => {
-    const handle = Meteor.subscribe("Projects.pub.list")
+    const handle = Meteor.subscribe('Projects.pub.list')
     const loading = !handle.ready()
 
     return {

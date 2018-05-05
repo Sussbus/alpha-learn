@@ -1,36 +1,36 @@
-import React, { Component } from "react"
-import { Layout, Col, Row, Card, Avatar, Icon, Divider } from "antd"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { Layout, Col, Row, Card, Avatar, Icon, Divider } from 'antd'
+import { connect } from 'react-redux'
 
-import ProjectsTab from "../components/ProfileTabs/ProjectsTab"
-import DataTab from "../components/ProfileTabs/DataTab"
+import ProjectsTab from '../components/ProfileTabs/ProjectsTab'
+import DataTab from '../components/ProfileTabs/DataTab'
 
-import CreateProject from "../components/CreateProject"
+import CreateProject from '../components/CreateProject'
 
 const { Content } = Layout
 
 const tabListNoTitle = [
     {
-        key: "projects",
-        tab: "Projects"
+        key: 'projects',
+        tab: 'Projects'
     },
     {
-        key: "data",
-        tab: "Data"
+        key: 'data',
+        tab: 'Data'
     },
     {
-        key: "shells",
-        tab: "Shells"
+        key: 'shells',
+        tab: 'Shells'
     }
 ]
 
 createNewProject = () => {
     //Need to add modal that pops up to create project
-    console.log("project being created...")
+    console.log('project being created...')
 }
 openProject = () => {
     //Need to add modal that pops up with project info
-    console.log("project being opened...")
+    console.log('project being opened...')
 }
 
 const contentListNoTitle = {
@@ -46,13 +46,13 @@ class Profile extends Component {
     }
 
     state = {
-        key: "projects",
+        key: 'projects',
         isOpen: false
     }
 
     render() {
         return (
-            <Content style={{ width: "100%", marginTop: 15 }}>
+            <Content style={{ width: '100%', marginTop: 15 }}>
                 <Col span={20} offset={2}>
                     <h1>Profile</h1>
                     <Card
@@ -63,7 +63,7 @@ class Profile extends Component {
                                 </h1>
                                 <span
                                     style={{
-                                        color: "gray",
+                                        color: 'gray',
                                         fontSize: 12,
                                         marginTop: 0
                                     }}
@@ -72,11 +72,11 @@ class Profile extends Component {
                                 </span>
                             </span>
                         }
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         tabList={tabListNoTitle}
                         activeTabKey={this.state.key}
                         onTabChange={key => {
-                            this.onTabChange(key, "key")
+                            this.onTabChange(key, 'key')
                         }}
                     >
                         {contentListNoTitle[this.state.key]}
