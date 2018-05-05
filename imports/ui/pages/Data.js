@@ -101,6 +101,7 @@ class Data extends Component {
                                 projects.map(project => (
                                     <ProjectCard
                                         key={project._id}
+                                        projectID={project._id}
                                         projectTitle={project.project_title}
                                         projectDescription={
                                             project.project_body

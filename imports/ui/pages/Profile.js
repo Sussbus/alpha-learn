@@ -6,6 +6,7 @@ import ProjectsTab from '../components/ProfileTabs/ProjectsTab'
 import DataTab from '../components/ProfileTabs/DataTab'
 
 import CreateProject from '../components/CreateProject'
+import ProjectOverview from '../components/ProjectOverview/ProjectOverview'
 
 const { Content } = Layout
 
@@ -23,15 +24,6 @@ const tabListNoTitle = [
         tab: 'Shells'
     }
 ]
-
-createNewProject = () => {
-    //Need to add modal that pops up to create project
-    console.log('project being created...')
-}
-openProject = () => {
-    //Need to add modal that pops up with project info
-    console.log('project being opened...')
-}
 
 const contentListNoTitle = {
     projects: <ProjectsTab />,
@@ -82,6 +74,7 @@ class Profile extends Component {
                         {contentListNoTitle[this.state.key]}
                     </Card>
                 </Col>
+                <ProjectOverview visible={this.props.isProjectOpen} />
             </Content>
         )
     }
@@ -89,7 +82,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        isProjectOpen: state.projectOverview.isProjectOpen
     }
 }
 

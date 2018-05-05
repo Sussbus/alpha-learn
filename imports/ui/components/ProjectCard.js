@@ -12,6 +12,7 @@ const ProjectCard = ({
     isTrainingLoading,
     loadTraining,
     startTraining,
+    projectID,
     projectTitle,
     projectDescription,
     projectCreator,
@@ -138,14 +139,14 @@ const enhance = compose(
             props.loadRequest(true)
             setTimeout(function() {
                 props.loadRequest(false)
-                store.dispatch(requestData('da29djdal12ija'))
+                store.dispatch(requestData(props.projectID))
             }, 1500)
         },
         startTraining: props => event => {
             props.loadTraining(true)
             setTimeout(function() {
                 props.loadTraining(false)
-                store.dispatch(startTraining('da29djdal12ija'))
+                store.dispatch(startTraining(props.projectID))
             }, 1500)
         }
     })

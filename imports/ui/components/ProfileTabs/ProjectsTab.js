@@ -14,7 +14,6 @@ import { withState, withHandlers, mapProps, compose } from 'recompose'
 import { withTracker } from 'meteor/react-meteor-data'
 
 import CreateProject from '../CreateProject'
-import ProjectOverview from '../ProjectOverview'
 import ProfileProjectCard from '../ProfileProjectCard'
 import EmptyStatus from '../EmptyStatus'
 
@@ -29,9 +28,7 @@ const ProjectsTab = ({
     handleOk,
     handleCancel,
     projects,
-    loading,
-    projectOverviewVisible,
-    cancelProjectOverview
+    loading
 }) => {
     return (
         <Content>
@@ -61,10 +58,6 @@ const ProjectsTab = ({
                     onCancel={handleCancel}
                     visible={isOpen}
                 />
-                <ProjectOverview
-                    visible={projectOverviewVisible}
-                    onCancel={cancelProjectOverview}
-                />
             </Row>
             {loading ? (
                 <Col span={24} offset={12} style={{ marginTop: '5%' }}>
@@ -75,6 +68,7 @@ const ProjectsTab = ({
                     <Fragment key={project._id}>
                         <Divider type="horizontal" />
                         <ProfileProjectCard
+                            projectID={project._id}
                             projectTitle={project.project_title}
                             projectBody={project.project_body}
                         />
@@ -88,7 +82,6 @@ const ProjectsTab = ({
 
 const enhance = compose(
     withState('isOpen', 'createProject', false),
-    withState('projectOverviewVisible', 'toggleProjectOverview', true),
     withHandlers({
         createNewProject: props => event => {
             props.createProject(true)
@@ -98,12 +91,6 @@ const enhance = compose(
         },
         handleCancel: props => event => {
             props.createProject(false)
-        },
-        openProjectOverview: props => event => {
-            props.toggleProjectOverview(true)
-        },
-        cancelProjectOverview: props => event => {
-            props.toggleProjectOverview(false)
         }
     }),
     mapProps(ownProps => ({

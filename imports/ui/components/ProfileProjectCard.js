@@ -2,7 +2,11 @@ import React from 'react'
 import { Row, Col, Avatar } from 'antd'
 import { withState, withhandlers, compose, withHandlers } from 'recompose'
 
+import store from '../../store/store'
+import { openProjectOverview } from '../../actions/projectOverview'
+
 const ProfileProjectCard = ({
+    projectID,
     projectTitle,
     projectBody,
     openProjectOverview
@@ -28,7 +32,7 @@ const ProfileProjectCard = ({
 const enhance = compose(
     withHandlers({
         openProjectOverview: props => event => {
-            console.log('opened')
+            store.dispatch(openProjectOverview(props.projectID))
         }
     })
 )
