@@ -1,16 +1,17 @@
-import React, { Component } from "react"
-import { Layout, Row, Col, Input, Select, Spin, Button, Tag } from "antd"
-import { withTracker } from "meteor/react-meteor-data"
-import CopyToClipboard from "react-copy-to-clipboard"
-import SyntaxHighlighter from "react-syntax-highlighter"
-import { light } from "react-syntax-highlighter/styles/prism"
-import moment from "moment"
+import React, { Component } from 'react'
+import { Layout, Row, Col, Input, Select, Spin, Button, Tag } from 'antd'
+import { withTracker } from 'meteor/react-meteor-data'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { light } from 'react-syntax-highlighter/styles/prism'
+import moment from 'moment'
 
-import ProjectCard from "../components/ProjectCard"
-import RequestData from "../components/RequestData"
-import Loading from "../components/Loading"
+import ProjectCard from '../components/ProjectCard'
+import RequestData from '../components/RequestData'
+import Loading from '../components/Loading'
+import LabelingContainer from '../components/Labeling/LabelingContainer'
 
-import { Projects } from "../../api/projects/projects"
+import { Projects } from '../../api/projects/projects'
 
 const { Content } = Layout
 
@@ -22,14 +23,14 @@ class Data extends Component {
     handleOk = () => {
         this.setState({ visible: false })
         const params = {
-            title: "SVHN Preprocessed Fragments",
+            title: 'SVHN Preprocessed Fragments',
             body:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.",
-            project_tags: ["research", "patterns", "classification"]
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.',
+            project_tags: ['research', 'patterns', 'classification']
         }
-        Meteor.call("Projects.insert", params, error => {
+        Meteor.call('Projects.insert', params, error => {
             if (!error) {
-                console.log("Project added!")
+                console.log('Project added!')
             } else {
                 console.log(error)
             }
@@ -38,19 +39,19 @@ class Data extends Component {
 
     handleCancel = () => {
         this.setState({ visible: false })
-        console.log("canceled")
+        console.log('canceled')
     }
 
     render() {
         const { projects, loading } = this.props
         const colors = [
-            "blue",
-            "geekblue",
-            "cyan",
-            "magenta",
-            "red",
-            "orange",
-            "purple"
+            'blue',
+            'geekblue',
+            'cyan',
+            'magenta',
+            'red',
+            'orange',
+            'purple'
         ]
 
         return (
@@ -70,7 +71,7 @@ class Data extends Component {
                             mode="tags"
                             placeholder="Tags"
                             style={{ width: 180, marginLeft: 15 }}
-                            tokenSeparators={[","]}
+                            tokenSeparators={[',']}
                         >
                             <Select.Option key="1">Hardware</Select.Option>
                             <Select.Option key="2">Software</Select.Option>
@@ -78,7 +79,7 @@ class Data extends Component {
                             <Select.Option key="4">More</Select.Option>
                         </Select>
                     </Col>
-                    <Row style={{ marginTop: "5%" }}>
+                    <Row style={{ marginTop: '5%' }}>
                         <Col span={20} offset={2}>
                             {loading ? (
                                 <Loading height={235} />
@@ -117,6 +118,7 @@ class Data extends Component {
                                 onOk={this.handleOk}
                                 onCancel={this.handleCancel}
                             />
+                            <LabelingContainer labelType="image-classification" />
                         </Col>
                     </Row>
                 </Content>
@@ -126,7 +128,7 @@ class Data extends Component {
 }
 
 export default (DataContainer = withTracker(() => {
-    const handle = Meteor.subscribe("Projects.pub.list")
+    const handle = Meteor.subscribe('Projects.pub.list')
     const loading = !handle.ready()
     !handle.ready()
 
