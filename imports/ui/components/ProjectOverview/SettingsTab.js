@@ -1,7 +1,12 @@
 import React from 'react'
-import { Row, Col, Tabs, Button } from 'antd'
+import { Row, Col, Tabs, Button, Popconfirm } from 'antd'
+import { withHandlers, compose } from 'recompose'
+import { connect } from 'react-redux'
 
-const SettingsTab = () => {
+import store from '../../../store/store'
+import { closeProjectOverview } from '../../../actions/projectOverview'
+
+const SettingsTab = ({ deleteProject, project }) => {
     return (
         <Row style={{ height: 300 }}>
             <Tabs tabPosition="left">
@@ -18,11 +23,44 @@ const SettingsTab = () => {
                     <p style={{ fontSize: 17, color: 'gray' }}>
                         Deleting a project is permanent and can not be restored
                     </p>
-                    <Button type="danger">Delete Project</Button>
+                    <Popconfirm
+                        placement="bottomLeft"
+                        title="Are you sure you would like to delete this project?"
+                        onConfirm={deleteProject}
+                    >
+                        <Button type="danger">Delete Project</Button>
+                    </Popconfirm>
                 </Tabs.TabPane>
             </Tabs>
         </Row>
     )
 }
 
-export default SettingsTab
+const enhance = compose(
+    withHandlers({
+        deleteProject: props => event => {
+            store.dispatch(closeProjectOverview())
+            //console.log('Project ID: ' + props.projectID)
+            Meteor.call('Projects.remove', props.projectID, error => {
+                if (!error) {
+                    console.log(
+                        'Successfully delete a project with ID: ' +
+                            props.projectID
+                    )
+                } else {
+                    console.log(error)
+                }
+            })
+        }
+    })
+)
+
+const mapStateToProps = state => {
+    return {
+        user: state.auth.user,
+        projectID: state.projectOverview.projectID
+    }
+}
+const EnhancedSettingsTab = enhance(SettingsTab)
+
+export default connect(mapStateToProps)(EnhancedSettingsTab)
