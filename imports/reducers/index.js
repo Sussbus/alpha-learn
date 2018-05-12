@@ -1,7 +1,15 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
-import auth from './auth';
+import auth from './auth'
+import training from './training'
+import dataRequest from './dataRequest'
+import projectOverview from './projectOverview'
 
 export default combineReducers({
-    auth
-});
+    auth,
+    training,
+    dataRequest,
+    projectOverview,
+    routing: routerReducer
+})

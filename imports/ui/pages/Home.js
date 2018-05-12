@@ -11,7 +11,7 @@ import {
     Icon,
     Checkbox
 } from 'antd';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -40,12 +40,12 @@ const WrappedHomeForm = Form.create()(Home);
 
 const mapStateToProps = state => {
     return {
-      username : state.auth.user.username
-    }
-  }
-  
+        username: state.auth.user.username
+    };
+};
+
 const mapDispatchToProps = dispatch => {
-    return {}
-}
+    return {};
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedHomeForm);

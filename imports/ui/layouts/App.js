@@ -1,44 +1,74 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import { Layout } from 'antd';
-const { Header, Content, Footer } = Layout;
+import { Layout } from 'antd'
+const { Header, Content, Footer } = Layout
 
-import { Router, Route, Switch, Link } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { Router, Route, Switch, Link } from 'react-router-dom'
+import createBrowserHistory from 'history/createBrowserHistory'
+import { syncHistoryWithStore } from 'react-router-redux'
 
-import Home from '../pages/Home.js';
-import Login from '../pages/Login.js';
-import SignUp from '../pages/SignUp.js';
-import NotFound from '../pages/NotFound.js';
+import Home from '../pages/Home.js'
+import Login from '../pages/Login.js'
+import SignUp from '../pages/SignUp.js'
+import API from '../pages/API.js'
+import Settings from '../pages/Settings.js'
+import Profile from '../pages/Profile.js'
+import Data from '../pages/Data.js'
+import NotFound from '../pages/NotFound.js'
 
-import NavBar from '../components/NavBar.js';
+import NavBar from '../components/NavBar.js'
+import store from '../../store/store'
 
-const browserHistory = createBrowserHistory();
+const browserHistory = createBrowserHistory()
+
+const history = syncHistoryWithStore(browserHistory, store)
 
 class App extends Component {
-    render() {
-        return (
-            <Layout>
-                <Router history={browserHistory}>
-                    <div>
-                        <NavBar />
-                        <Content style={{ marginTop: 64 }}>
-                            <Switch>
-                                <Route exact path="/" component={Home} />
-                                <Route exact path="/login" component={Login} />
-                                <Route
-                                    exact
-                                    path="/signup"
-                                    component={SignUp}
-                                />
-                                <Route component={NotFound} />
-                            </Switch>
-                        </Content>
-                    </div>
-                </Router>
-            </Layout>
-        );
-    }
+	render() {
+		return (
+			<Layout
+				style={{
+					display: 'flex',
+					minHeight: '100vh',
+					flexDirection: 'column'
+				}}
+			>
+				<Router history={browserHistory}>
+					<div style={{ flex: 1 }}>
+						<NavBar />
+						<Content>
+							<Switch>
+								<Route exact path="/" component={Home} />
+								<Route exact path="/login" component={Login} />
+								<Route
+									exact
+									path="/signup"
+									component={SignUp}
+								/>
+								<Route exact path="/data" component={Data} />
+								<Route exact path="/api" component={API} />
+								<Route
+									exact
+									path="/settings"
+									component={Settings}
+								/>
+								<Route
+									exact
+									path="/profile"
+									component={Profile}
+								/>
+								<Route component={NotFound} />
+							</Switch>
+						</Content>
+					</div>
+				</Router>
+				<Footer style={{ textAlign: 'center' }}>
+					&copy; 2018 BitByBite Inc. | About | Terms of Service |{' '}
+					Privacy Policy
+				</Footer>
+			</Layout>
+		)
+	}
 }
 
-export default App;
+export default App
