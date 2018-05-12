@@ -2,7 +2,7 @@ import { START_DATA_REQUEST, STOP_DATA_REQUEST } from '../actions/dataRequest'
 
 export const initialState = {
     user: {},
-    postId: '',
+    projectID: '',
     isRequestingData: false
 }
 
@@ -13,7 +13,7 @@ export default function requestData(state = initialState, action) {
         case START_DATA_REQUEST:
             return Object.assign({}, state, {
                 user: data.user || {},
-                postId: data.postId || '',
+                projectID: data.projectID || '',
                 isRequestingData: true
             })
         case STOP_DATA_REQUEST:
