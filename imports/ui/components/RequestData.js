@@ -64,7 +64,7 @@ const RequestData = ({
                     Options
                 </p>
                 <Row type="flex" justify="middle">
-                    <Col span={3}>
+                    <Col span={4}>
                         <p style={{ fontSize: 16, fontWeight: '550' }}>
                             Amount Labeled
                         </p>
@@ -150,8 +150,8 @@ const enhance = compose(
         },
         changeAmountLabeled: props => event => {
             const numLabeled = 143
-            const ammountLabeled = Math.round(numLabeled * (event / 100))
-            props.switchLabeled(ammountLabeled)
+            const amountLabeled = Math.round(numLabeled * (event / 100))
+            props.switchLabeled(amountLabeled)
         },
         switchFormat: props => event => {
             props.changeFormat(event)
