@@ -139,7 +139,7 @@ class Data extends Component {
                             />
                             <LabelingContainer
                                 visible={isTraining}
-                                labelType="image-classification"
+                                labelingInterface="IMAGE_CLASSIFICATION"
                             />
                         </Col>
                     </Row>

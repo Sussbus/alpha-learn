@@ -8,7 +8,7 @@ import ImageClassificiation from './ImageClassification'
 import store from '../../../store/store'
 import { stopTraining } from '../../../actions/training'
 
-const LabelingContainer = ({ labelType, visible, stopTraining }) => {
+const LabelingContainer = ({ labelingInterface, visible, stopTraining }) => {
     return (
         <Modal
             title={
@@ -44,8 +44,10 @@ const LabelingContainer = ({ labelType, visible, stopTraining }) => {
             closable={false}
             width="60%"
         >
-            {labelType == 'text-sentiment' && <TextSentiment />}
-            {labelType == 'image-classification' && <ImageClassificiation />}
+            {labelingInterface == 'TEXT_SENTIMENT' && <TextSentiment />}
+            {labelingInterface == 'IMAGE_CLASSIFICATION' && (
+                <ImageClassificiation />
+            )}
         </Modal>
     )
 }

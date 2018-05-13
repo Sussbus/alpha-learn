@@ -71,6 +71,7 @@ const RequestData = ({
                     </Col>
                     <Col span={8}>
                         <Slider
+                            defaultValue={100}
                             step={5}
                             onChange={changeAmountLabeled}
                             tipFormatter={formatter}
