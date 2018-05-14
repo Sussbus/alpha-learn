@@ -10,7 +10,8 @@ import {
     Col,
     Upload,
     Icon,
-    Divider
+    Divider,
+    Select
 } from 'antd'
 import { withState, withHandlers, withProps, compose } from 'recompose'
 
@@ -23,8 +24,11 @@ const CreateProject = ({
     previousSlide,
     changeSlide,
     onRef,
-    handleSubmit,
-    form
+    form,
+    labelType,
+    createProject,
+    handleTags,
+    handleLabelingInterface
 }) => {
     return (
         <Modal
@@ -33,6 +37,7 @@ const CreateProject = ({
             visible={visible}
             onOk={onOk}
             onCancel={onCancel}
+            footer={null}
         >
             <Row>
                 <Col span={6} style={{ paddingTop: 25 }}>
@@ -64,6 +69,7 @@ const CreateProject = ({
                             <Button
                                 type="primary"
                                 style={{ marginRight: 10, width: 65 }}
+                                onClick={createProject}
                             >
                                 Done
                             </Button>
@@ -81,7 +87,7 @@ const CreateProject = ({
                     <Carousel ref={onRef}>
                         <div style={{ height: 300, paddingLeft: 30 }}>
                             <Row style={{ marginTop: 60 }}>
-                                <Form onSubmit={handleSubmit}>
+                                <Form onSubmit={null}>
                                     <Row style={{ marginBottom: 15 }}>
                                         <Col span={10}>
                                             <Form.Item>
@@ -125,6 +131,63 @@ const CreateProject = ({
                                                         rows={2}
                                                         placeholder="Project Description..."
                                                     />
+                                                )}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={8}>
+                                            <Form.Item
+                                                style={{ maxHeight: 100 }}
+                                            >
+                                                {form.getFieldDecorator(
+                                                    'projectTags',
+                                                    {
+                                                        rules: [
+                                                            {
+                                                                required: true,
+                                                                message:
+                                                                    "Please select project's tags"
+                                                            }
+                                                        ]
+                                                    }
+                                                )(
+                                                    <Select
+                                                        mode="multiple"
+                                                        placeholder="Select Tags..."
+                                                        onChange={handleTags}
+                                                    >
+                                                        <Select.Option
+                                                            value="art"
+                                                            key="art"
+                                                        >
+                                                            Art
+                                                        </Select.Option>
+                                                        <Select.Option
+                                                            value="classification"
+                                                            key="classification"
+                                                        >
+                                                            Classification
+                                                        </Select.Option>
+                                                        <Select.Option
+                                                            value="creativity"
+                                                            key="creativity"
+                                                        >
+                                                            Creativity
+                                                        </Select.Option>
+                                                        <Select.Option
+                                                            value="patterns"
+                                                            key="patterns"
+                                                        >
+                                                            Patterns
+                                                        </Select.Option>
+                                                        <Select.Option
+                                                            value="research"
+                                                            key="research"
+                                                        >
+                                                            Research
+                                                        </Select.Option>
+                                                    </Select>
                                                 )}
                                             </Form.Item>
                                         </Col>
@@ -181,25 +244,49 @@ const CreateProject = ({
                                     </p>
                                 </Col>
                                 <Col span={4} style={{ paddingTop: 4 }}>
-                                    <Button>
-                                        Select<Icon type="arrow-right" />
-                                    </Button>
+                                    {labelType == 'IMAGE_CLASSIFICATION' ? (
+                                        <Button
+                                            type="primary"
+                                            id="IMAGE_CLASSIFICATION"
+                                        >
+                                            Select<Icon type="arrow-right" />
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            id="IMAGE_CLASSIFICATION"
+                                            onClick={handleLabelingInterface}
+                                        >
+                                            Select<Icon type="arrow-right" />
+                                        </Button>
+                                    )}
                                 </Col>
                             </Row>
                             <Divider type="horizontal" />
                             <Row align="middle" style={{ marginBottom: 20 }}>
                                 <Col span={20}>
                                     <h3 style={{ marginBottom: 0 }}>
-                                        Text Classification
+                                        Text Sentiment
                                     </h3>
                                     <p style={{ marginTop: 0 }}>
                                         A basic text classification template.
                                     </p>
                                 </Col>
                                 <Col span={4} style={{ paddingTop: 3 }}>
-                                    <Button>
-                                        Select<Icon type="arrow-right" />
-                                    </Button>
+                                    {labelType == 'TEXT_SENTIMENT' ? (
+                                        <Button
+                                            type="primary"
+                                            id="TEXT_SENTIMENT"
+                                        >
+                                            Select<Icon type="arrow-right" />
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            id="TEXT_SENTIMENT"
+                                            onClick={handleLabelingInterface}
+                                        >
+                                            Select<Icon type="arrow-right" />
+                                        </Button>
+                                    )}
                                 </Col>
                             </Row>
                             <Divider type="horizontal" />
@@ -213,9 +300,21 @@ const CreateProject = ({
                                     </p>
                                 </Col>
                                 <Col span={4} style={{ paddingTop: 4 }}>
-                                    <Button>
-                                        Select<Icon type="arrow-right" />
-                                    </Button>
+                                    {labelType == 'IMAGE_SEGMENTATION' ? (
+                                        <Button
+                                            type="primary"
+                                            id="IMAGE_SEGMENTATION"
+                                        >
+                                            Select<Icon type="arrow-right" />
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            id="IMAGE_SEGMENTATION"
+                                            onClick={handleLabelingInterface}
+                                        >
+                                            Select<Icon type="arrow-right" />
+                                        </Button>
+                                    )}
                                 </Col>
                             </Row>
                         </div>
@@ -227,6 +326,8 @@ const CreateProject = ({
 }
 const enhance = compose(
     withState('stepNumber', 'changeSlide', 0),
+    withState('projTags', 'addTags', []),
+    withState('labelType', 'handleLabelType', ''),
     withHandlers({
         onRef: () => ref => (carousel = ref),
         nextSlide: props => event => {
@@ -237,11 +338,25 @@ const enhance = compose(
             carousel.prev()
             props.changeSlide(props.stepNumber - 1)
         },
-        handleSubmit: props => event => {
-            event.preventDefault()
-            form.validateFields((err, values) => {
-                if (!err) {
-                    console.log('Received values of form: ', values)
+        handleTags: props => event => {
+            props.addTags(event)
+        },
+        handleLabelingInterface: props => event => {
+            props.handleLabelType(event.target.id)
+        },
+        createProject: props => event => {
+            const project = {
+                title: projectName.value,
+                body: projectDescription.value,
+                project_tags: props.projTags,
+                labeling_interface: props.labelType
+            }
+
+            Meteor.call('Projects.insert', project, error => {
+                if (!error) {
+                    console.log('Project successfully created!')
+                } else {
+                    console.log(error)
                 }
             })
         }

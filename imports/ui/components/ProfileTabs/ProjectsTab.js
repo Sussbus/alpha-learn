@@ -106,7 +106,10 @@ export default withTracker(() => {
     const loading = !handle.ready()
 
     return {
-        projects: Projects.find({ user_id: Meteor.userId() }).fetch(),
+        projects: Projects.find(
+            { user_id: Meteor.userId() },
+            { sort: { createdAt: -1 } }
+        ).fetch(),
         user: Meteor.user(),
         loading: loading
     }
