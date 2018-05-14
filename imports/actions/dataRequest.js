@@ -6,7 +6,6 @@ export function requestData(projectID) {
         dispatch({
             type: 'START_DATA_REQUEST',
             data: {
-                user: Meteor.user(),
                 projectID: projectID
             }
         })

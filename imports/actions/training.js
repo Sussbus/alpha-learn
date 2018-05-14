@@ -12,8 +12,6 @@ export function startTraining(postId) {
             dispatch({
                 type: 'START_TRAINING',
                 data: {
-                    user: Meteor.user(),
-                    postId: postId,
                     project: Projects.find({ _id: postId }).fetch()[0],
                     projectLoaded: projectLoaded
                 }
