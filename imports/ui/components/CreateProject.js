@@ -14,10 +14,13 @@ import {
     Select
 } from 'antd'
 import { withState, withHandlers, withProps, compose } from 'recompose'
+import { connect } from 'react-redux'
+
+import store from '../../store/store'
+import { closeCreateProject } from '../../actions/createProject'
 
 const CreateProject = ({
     visible,
-    onOk,
     onCancel,
     stepNumber,
     nextSlide,
@@ -28,14 +31,15 @@ const CreateProject = ({
     labelType,
     createProject,
     handleTags,
-    handleLabelingInterface
+    handleLabelingInterface,
+    isCreatingProject
 }) => {
     return (
         <Modal
             width="60%"
+            style={{ marginTop: '4.5%' }}
             title={<h2>Create Project</h2>}
-            visible={visible}
-            onOk={onOk}
+            visible={isCreatingProject}
             onCancel={onCancel}
             footer={null}
         >
@@ -329,6 +333,9 @@ const enhance = compose(
     withState('projTags', 'addTags', []),
     withState('labelType', 'handleLabelType', ''),
     withHandlers({
+        onCancel: props => event => {
+            store.dispatch(closeCreateProject())
+        },
         onRef: () => ref => (carousel = ref),
         nextSlide: props => event => {
             carousel.next()
@@ -359,9 +366,18 @@ const enhance = compose(
                     console.log(error)
                 }
             })
+            store.dispatch(closeCreateProject())
         }
     })
 )
 const CreateProjectForm = Form.create()(CreateProject)
 
-export default enhance(CreateProjectForm)
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isCreatingProject: state.createProject.isCreatingProject
+    }
+}
+
+const ConnectedCreateProject = connect(mapStateToProps)(CreateProjectForm)
+
+export default enhance(ConnectedCreateProject)

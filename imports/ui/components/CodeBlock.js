@@ -15,7 +15,10 @@ const CodeBlock = ({ value, isCopied, handleCopy }) => {
                             position: 'absolute',
                             marginLeft: '56.5%',
                             marginTop: 5,
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            MozUserSelect: 'none',
+                            WebkitUserSelect: 'none',
+                            msUserSelect: 'none'
                         }}
                     >
                         Copy
@@ -29,7 +32,10 @@ const CodeBlock = ({ value, isCopied, handleCopy }) => {
                 lineNumberStyle={{
                     color: '#C1C7CD',
                     marginLeft: 5,
-                    fontSize: 12
+                    fontSize: 12,
+                    MozUserSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    msUserSelect: 'none'
                 }}
                 customStyle={{
                     backgroundColor: '#f2f4f5',

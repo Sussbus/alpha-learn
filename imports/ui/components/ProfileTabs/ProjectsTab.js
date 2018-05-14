@@ -19,6 +19,9 @@ import EmptyStatus from '../EmptyStatus'
 
 import { Projects } from '../../../api/projects/projects'
 
+import store from '../../../store/store'
+import { createProject } from '../../../actions/createProject'
+
 const { Content } = Layout
 
 const ProjectsTab = ({
@@ -53,11 +56,7 @@ const ProjectsTab = ({
                         <h2 style={{ color: '#475660' }}>Create New Project</h2>
                     </Col>
                 </a>
-                <CreateProject
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                    visible={isOpen}
-                />
+                <CreateProject />
             </Row>
             {loading ? (
                 <Col span={24} offset={12} style={{ marginTop: '5%' }}>
@@ -81,16 +80,9 @@ const ProjectsTab = ({
 }
 
 const enhance = compose(
-    withState('isOpen', 'createProject', false),
     withHandlers({
         createNewProject: props => event => {
-            props.createProject(true)
-        },
-        handleOk: props => event => {
-            props.createProject(false)
-        },
-        handleCancel: props => event => {
-            props.createProject(false)
+            store.dispatch(createProject())
         }
     }),
     mapProps(ownProps => ({
