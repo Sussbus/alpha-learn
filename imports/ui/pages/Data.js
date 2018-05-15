@@ -132,15 +132,8 @@ class Data extends Component {
                                 ))
                             )}
 
-                            <RequestData
-                                onOk={this.handleOk}
-                                onCancel={this.handleCancel}
-                                visible={this.props.isRequestingData}
-                            />
-                            <LabelingContainer
-                                visible={isTraining}
-                                labelingInterface="IMAGE_CLASSIFICATION"
-                            />
+                            <RequestData />
+                            <LabelingContainer />
                         </Col>
                     </Row>
                 </Content>

@@ -77,6 +77,7 @@ const EnhanceLabelingContainer = enhance(LabelingContainer)
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        visible: state.training.isTraining,
         fetchedProject: state.training.project,
         isProjLoaded: state.training.projectLoaded
     }

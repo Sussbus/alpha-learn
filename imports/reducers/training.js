@@ -19,8 +19,7 @@ export default function training(state = initialState, action) {
         case STOP_TRAINING:
             return Object.assign({}, state, {
                 isTraining: false,
-                projectLoaded: false,
-                project: {},
+                projectLoaded: false
             })
         default:
             return state

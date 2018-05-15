@@ -7,7 +7,9 @@ const TextSentiment = ({ handlePositive, handleNeutral, handleNegaive }) => {
         <Row>
             <Col span={20} offset={2} style={{ marginBottom: 25 }}>
                 <p style={{ fontSize: 16, color: '#36454f' }}>
-                    https://storage.googleapis.com/labelbox-example-datasets/tesla/2016-tesla-model-s-17-of-43.jpg
+                    Everyone in my family liked the trail but thought it was too
+                    challenging for the less athletic among us. Not necessarily
+                    recommended for small children.
                 </p>
             </Col>
             <Col span={20} offset={2} style={{ marginBottom: 15 }}>
@@ -17,7 +19,7 @@ const TextSentiment = ({ handlePositive, handleNeutral, handleNegaive }) => {
             </Col>
             <Col span={20} offset={2}>
                 <Row type="flex" justify="space-between">
-                    <Button onClick={handlePositive}>Positivle</Button>
+                    <Button onClick={handlePositive}>Positive</Button>
 
                     <Button onClick={handleNeutral}>Neutral</Button>
 

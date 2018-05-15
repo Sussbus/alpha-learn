@@ -146,6 +146,9 @@ const enhance = compose(
                 props.copyRequest(false)
             }, 1500)
         },
+        onOk: props => event => {
+            store.dispatch(stopDataRequest())
+        },
         cancelDataRequest: props => event => {
             store.dispatch(stopDataRequest())
         },
@@ -162,7 +165,8 @@ const enhance = compose(
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        projectID: state.dataRequest.projectID
+        projectID: state.dataRequest.project._id,
+        visible: state.dataRequest.isRequestingData
     }
 }
 const ConnectRequestData = connect(mapStateToProps)(RequestData)

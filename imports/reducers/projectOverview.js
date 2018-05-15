@@ -4,7 +4,7 @@ import {
 } from '../actions/projectOverview'
 
 export const initialState = {
-    projectID: '',
+    project: {},
     isProjectOpen: false
 }
 
@@ -14,7 +14,7 @@ export default function projectOverview(state = initialState, action) {
     switch (type) {
         case OPEN_PROJECT_OVERVIEW:
             return Object.assign({}, state, {
-                projectID: data.projectID || '',
+                project: data.project || {},
                 isProjectOpen: true
             })
         case CLOSE_PROJECT_OVERVIEW:
