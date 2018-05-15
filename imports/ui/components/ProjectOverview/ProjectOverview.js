@@ -1,6 +1,7 @@
 import React from 'react'
 import { withState, withHandlers, compose } from 'recompose'
 import { Modal, Row, Col, Tabs } from 'antd'
+import { connect } from 'react-redux'
 
 import OverviewTab from './OverviewTab'
 import DataTab from './DataTab'
@@ -9,12 +10,18 @@ import SettingsTab from './SettingsTab'
 import store from '../../../store/store'
 import { closeProjectOverview } from '../../../actions/projectOverview'
 
-const ProjectOverview = ({ currentTab, switchTab, visible, handleCancel }) => {
+const ProjectOverview = ({
+    project,
+    currentTab,
+    switchTab,
+    visible,
+    handleCancel
+}) => {
     return (
         <Modal
             title={
                 <p style={{ fontSize: 16, fontWeight: '600' }}>
-                    SVHN Preprocessed Fragments
+                    {project.project_title}
                 </p>
             }
             width="60%"
@@ -64,5 +71,11 @@ enhance = compose(
         }
     })
 )
+const mapStateToProps = (state, ownProps) => {
+    return {
+        project: state.projectOverview.project
+    }
+}
+const ConnectProjectOverview = connect(mapStateToProps)(ProjectOverview)
 
-export default enhance(ProjectOverview)
+export default enhance(ConnectProjectOverview)

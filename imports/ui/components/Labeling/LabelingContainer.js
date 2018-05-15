@@ -1,6 +1,7 @@
 import React from 'react'
 import { withState, withHandlers, compose } from 'recompose'
 import { Col, Row, Modal, Button, Popconfirm } from 'antd'
+import { connect } from 'react-redux'
 
 import TextSentiment from './TextSentiment'
 import ImageClassificiation from './ImageClassification'
@@ -8,7 +9,16 @@ import ImageClassificiation from './ImageClassification'
 import store from '../../../store/store'
 import { stopTraining } from '../../../actions/training'
 
-const LabelingContainer = ({ labelType, visible, stopTraining }) => {
+const LabelingContainer = ({
+    labelingInterface,
+    visible,
+    stopTraining,
+    project,
+    loading,
+    projectID,
+    fetchedProject,
+    isProjLoaded
+}) => {
     return (
         <Modal
             title={
@@ -44,11 +54,18 @@ const LabelingContainer = ({ labelType, visible, stopTraining }) => {
             closable={false}
             width="60%"
         >
-            {labelType == 'text-sentiment' && <TextSentiment />}
-            {labelType == 'image-classification' && <ImageClassificiation />}
+            {isProjLoaded &&
+                fetchedProject.labeling_interface == 'IMAGE_CLASSIFICATION' && (
+                    <ImageClassificiation />
+                )}
+            {isProjLoaded &&
+                fetchedProject.labeling_interface == 'TEXT_SENTIMENT' && (
+                    <TextSentiment />
+                )}
         </Modal>
     )
 }
+
 const enhance = compose(
     withHandlers({
         stopTraining: props => event => {
@@ -56,4 +73,14 @@ const enhance = compose(
         }
     })
 )
-export default enhance(LabelingContainer)
+const EnhanceLabelingContainer = enhance(LabelingContainer)
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        visible: state.training.isTraining,
+        fetchedProject: state.training.project,
+        isProjLoaded: state.training.projectLoaded
+    }
+}
+
+export default connect(mapStateToProps)(EnhanceLabelingContainer)

@@ -1,5 +1,5 @@
-import { Mongo } from "meteor/mongo"
-import { SimpleSchema } from "meteor/aldeed:simple-schema"
+import { Mongo } from 'meteor/mongo'
+import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 ProjectsSchema = new SimpleSchema({
     user_id: {
@@ -8,7 +8,7 @@ ProjectsSchema = new SimpleSchema({
     },
     createdAt: {
         type: Date,
-        label: "Date project created",
+        label: 'Date project created',
         autoValue: function() {
             if (this.isInsert) {
                 return new Date()
@@ -30,13 +30,17 @@ ProjectsSchema = new SimpleSchema({
         optional: false,
         label: "Project's relevant tags"
     },
+    labeling_interface: {
+        type: String,
+        label: "Project's labeling interface"
+    },
     labeled: {
         type: SimpleSchema.Integer,
         optional: false,
-        label: "Number of labeled items in dataset"
+        label: 'Number of labeled items in dataset'
     }
 })
 
-export const Projects = new Mongo.Collection("projects")
+export const Projects = new Mongo.Collection('projects')
 
 Projects.attachSchema(ProjectsSchema)

@@ -64,13 +64,14 @@ const RequestData = ({
                     Options
                 </p>
                 <Row type="flex" justify="middle">
-                    <Col span={3}>
+                    <Col span={4}>
                         <p style={{ fontSize: 16, fontWeight: '550' }}>
                             Amount Labeled
                         </p>
                     </Col>
                     <Col span={8}>
                         <Slider
+                            defaultValue={100}
                             step={5}
                             onChange={changeAmountLabeled}
                             tipFormatter={formatter}
@@ -145,13 +146,16 @@ const enhance = compose(
                 props.copyRequest(false)
             }, 1500)
         },
+        onOk: props => event => {
+            store.dispatch(stopDataRequest())
+        },
         cancelDataRequest: props => event => {
             store.dispatch(stopDataRequest())
         },
         changeAmountLabeled: props => event => {
             const numLabeled = 143
-            const ammountLabeled = Math.round(numLabeled * (event / 100))
-            props.switchLabeled(ammountLabeled)
+            const amountLabeled = Math.round(numLabeled * (event / 100))
+            props.switchLabeled(amountLabeled)
         },
         switchFormat: props => event => {
             props.changeFormat(event)
@@ -161,7 +165,8 @@ const enhance = compose(
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        projectID: state.dataRequest.projectID
+        projectID: state.dataRequest.project._id,
+        visible: state.dataRequest.isRequestingData
     }
 }
 const ConnectRequestData = connect(mapStateToProps)(RequestData)
