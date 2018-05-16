@@ -5,17 +5,15 @@ export const STOP_TRAINING = 'STOP_TRAINING'
 
 export function startTraining(postId) {
     return dispatch => {
-        Tracker.autorun(() => {
-            const project = Projects.find({ _id: postId }).fetch()[0]
-            const projectLoaded = project != undefined || project != null
+        const project = Projects.find({ _id: postId }).fetch()[0]
+        const projectLoaded = project != undefined || project != null
 
-            dispatch({
-                type: 'START_TRAINING',
-                data: {
-                    project: Projects.find({ _id: postId }).fetch()[0],
-                    projectLoaded: projectLoaded
-                }
-            })
+        dispatch({
+            type: 'START_TRAINING',
+            data: {
+                project: Projects.find({ _id: postId }).fetch()[0],
+                projectLoaded: projectLoaded
+            }
         })
     }
 }

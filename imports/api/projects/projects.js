@@ -38,6 +38,12 @@ ProjectsSchema = new SimpleSchema({
         type: SimpleSchema.Integer,
         optional: false,
         label: 'Number of labeled items in dataset'
+    },
+    isArchived: {
+        type: Boolean,
+        optional: false,
+        label:
+            "Determines whether or not project is only visible on creators's profile"
     }
 })
 

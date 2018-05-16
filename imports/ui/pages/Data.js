@@ -161,7 +161,10 @@ export default (DataContainer = withTracker(() => {
     !handle.ready()
 
     return {
-        projects: Projects.find({}, { sort: { createdAt: -1 } }).fetch(),
+        projects: Projects.find(
+            { isArchived: false },
+            { sort: { createdAt: -1 } }
+        ).fetch(),
         user: Meteor.user(),
         loading: loading
     }
