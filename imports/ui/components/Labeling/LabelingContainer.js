@@ -31,7 +31,7 @@ const LabelingContainer = ({
                                 marginTop: '0.3%'
                             }}
                         >
-                            Labeling - SVHN Preprocessed Fragments
+                            {'Labeling - ' + fetchedProject.project_title}
                         </p>
                     </Col>
                     <Col span={2} style={{ marginLeft: '3.2%' }}>

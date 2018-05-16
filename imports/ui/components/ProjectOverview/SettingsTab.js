@@ -4,9 +4,19 @@ import { withHandlers, compose } from 'recompose'
 import { connect } from 'react-redux'
 
 import store from '../../../store/store'
-import { closeProjectOverview } from '../../../actions/projectOverview'
+import {
+    closeProjectOverview,
+    archiveProject,
+    unarchiveProject
+} from '../../../actions/projectOverview'
 
-const SettingsTab = ({ project, deleteProject }) => {
+const SettingsTab = ({
+    project,
+    isArchived,
+    deleteProject,
+    archiveProject,
+    unarchiveProject
+}) => {
     return (
         <Row style={{ height: 300 }}>
             <Tabs tabPosition="left">
@@ -152,9 +162,27 @@ const SettingsTab = ({ project, deleteProject }) => {
                     </Row>
                     <Row justify="middle">
                         <Col span={24}>
-                            <Button type="danger" style={{ marginTop: 15 }}>
-                                Archive Project
-                            </Button>
+                            {!isArchived ? (
+                                <Popconfirm
+                                    title="Archiving this project will make the visiblilty profile only"
+                                    onConfirm={archiveProject}
+                                >
+                                    <Button
+                                        type="danger"
+                                        style={{ marginTop: 15 }}
+                                    >
+                                        Archive Project
+                                    </Button>
+                                </Popconfirm>
+                            ) : (
+                                <Button
+                                    onClick={unarchiveProject}
+                                    type="danger"
+                                    style={{ marginTop: 15 }}
+                                >
+                                    Unarchive Project
+                                </Button>
+                            )}
                             <p style={{ color: 'gray', marginTop: 5 }}>
                                 Archiving this project will make it <b>only</b>{' '}
                                 visibile on your profile
@@ -185,10 +213,36 @@ const enhance = compose(
             Meteor.call('Projects.remove', props.projectID, error => {
                 if (!error) {
                     store.dispatch(closeProjectOverview())
-                    console.log(
+                    /*console.log(
                         'Successfully delete a project with ID: ' +
                             props.projectID
-                    )
+                    )*/
+                } else {
+                    console.log(error)
+                }
+            })
+        },
+        archiveProject: props => event => {
+            Meteor.call('Project.archive', props.projectID, error => {
+                if (!error) {
+                    store.dispatch(archiveProject())
+                    /*console.log(
+                        'successfully archived project with ID: ' +
+                            props.projectID
+                    )*/
+                } else {
+                    console.log(error)
+                }
+            })
+        },
+        unarchiveProject: props => event => {
+            Meteor.call('Project.unarchive', props.projectID, error => {
+                if (!error) {
+                    store.dispatch(unarchiveProject())
+                    /*console.log(
+                        'successfully unarchived project with ID: ' +
+                            props.projectID
+                    )*/
                 } else {
                     console.log(error)
                 }
@@ -201,7 +255,8 @@ const mapStateToProps = state => {
     return {
         user: state.auth.user,
         project: state.projectOverview.project,
-        projectID: state.projectOverview.project._id
+        projectID: state.projectOverview.project._id,
+        isArchived: state.projectOverview.project.isArchived
     }
 }
 const EnhancedSettingsTab = enhance(SettingsTab)
