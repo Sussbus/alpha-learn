@@ -244,7 +244,7 @@ const SettingsTab = ({
                                 <Button
                                     onClick={unarchiveProject}
                                     type="danger"
-                                    style={{ marginTop: 13 }}
+                                    style={{ marginTop: 7 }}
                                 >
                                     Unarchive Project
                                 </Button>
