@@ -12,14 +12,21 @@ import RequestData from '../components/RequestData'
 import Loading from '../components/Loading'
 import LabelingContainer from '../components/Labeling/LabelingContainer'
 
-import { Projects } from '../../api/projects/projects'
+import { Projects, ProjectsIndex } from '../../api/projects/projects'
 
 const { Content } = Layout
+
+const searchQuery = new ReactiveVar('')
 
 class Data extends Component {
     state = {
         visible: false,
         isTraining: false
+    }
+
+    handleSearch = e => {
+        searchQuery.set(e)
+        console.log(e)
     }
 
     handleOk = () => {
@@ -77,8 +84,9 @@ class Data extends Component {
                         style={{ marginTop: 20, marginBottom: 20 }}
                     >
                         <Input.Search
-                            style={{ width: 300 }}
                             placeholder="Search..."
+                            onSearch={this.handleSearch}
+                            style={{ width: 300 }}
                             enterButton
                         />
                         <Select
@@ -165,10 +173,11 @@ export default (DataContainer = withTracker(() => {
     !handle.ready()
 
     return {
-        projects: Projects.find(
+        /*projects: Projects.find(
             { isArchived: false },
             { sort: { createdAt: -1 } }
-        ).fetch(),
+        ).fetch(),*/
+        projects: ProjectsIndex.search(searchQuery.get()).fetch(),
         user: Meteor.user(),
         loading: loading
     }
