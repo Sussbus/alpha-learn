@@ -28,7 +28,7 @@ class App extends Component {
     render() {
         const isAuthenticated = Object.keys(this.props.auth.user).length > 0
 
-        const ProtectedProfile = ({ component: Component, ...rest }) => (
+        const PrivateRoute = ({ component: Component, ...rest }) => (
             <Route
                 {...rest}
                 render={props =>
@@ -67,12 +67,12 @@ class App extends Component {
                                 />
                                 <Route exact path="/data" component={Data} />
                                 <Route exact path="/api" component={API} />
-                                <Route
+                                <PrivateRoute
                                     exact
                                     path="/settings"
                                     component={Settings}
                                 />
-                                <ProtectedProfile
+                                <PrivateRoute
                                     path="/profile"
                                     component={Profile}
                                 />
