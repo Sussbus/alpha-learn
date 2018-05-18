@@ -106,7 +106,11 @@ class Data extends Component {
                                         projectDescription={
                                             project.project_body
                                         }
-                                        projectCreator="Sussbus"
+                                        projectCreator={
+                                            Meteor.users.findOne({
+                                                _id: project.user_id
+                                            }).username
+                                        }
                                         timeStamp={moment(
                                             project.createdAt
                                         ).fromNow()}

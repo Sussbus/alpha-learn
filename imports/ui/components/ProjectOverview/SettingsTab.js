@@ -1,5 +1,16 @@
 import React from 'react'
-import { Row, Col, Tabs, Button, Popconfirm, Divider, Icon, Input } from 'antd'
+import {
+    Row,
+    Col,
+    Tabs,
+    Button,
+    Popconfirm,
+    Divider,
+    Icon,
+    Input,
+    Form,
+    message
+} from 'antd'
 import { withHandlers, compose } from 'recompose'
 import { connect } from 'react-redux'
 
@@ -7,15 +18,20 @@ import store from '../../../store/store'
 import {
     closeProjectOverview,
     archiveProject,
-    unarchiveProject
+    unarchiveProject,
+    editProjectTitle,
+    editProjectBody
 } from '../../../actions/projectOverview'
 
 const SettingsTab = ({
+    form,
     project,
     isArchived,
     deleteProject,
     archiveProject,
-    unarchiveProject
+    unarchiveProject,
+    editProjTitle,
+    editProjBody
 }) => {
     return (
         <Row style={{ height: 300 }}>
@@ -140,7 +156,34 @@ const SettingsTab = ({
                             >
                                 Edit Project Title
                             </p>
-                            <Input defaultValue={project.project_title} />
+                            <Form.Item>
+                                {form.getFieldDecorator('newProjTitle', {
+                                    initialValue: project.project_title,
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message:
+                                                'Your project must contain a title'
+                                        }
+                                    ]
+                                })(<Input />)}
+                            </Form.Item>
+                        </Col>
+                        <Col span={2}>
+                            {form.getFieldValue('newProjTitle') !=
+                                project.project_title &&
+                                form.getFieldValue('newProjTitle') != '' && (
+                                    <Button
+                                        type="primary"
+                                        onClick={editProjTitle}
+                                        style={{
+                                            marginLeft: 15,
+                                            marginTop: 42
+                                        }}
+                                    >
+                                        Update
+                                    </Button>
+                                )}
                         </Col>
                     </Row>
                     <Row justify="middle">
@@ -148,16 +191,39 @@ const SettingsTab = ({
                             <p
                                 style={{
                                     fontSize: 16,
-                                    fontWeight: '600',
-                                    marginTop: 20
+                                    fontWeight: '600'
                                 }}
                             >
                                 Edit Project Description
                             </p>
-                            <Input.TextArea
-                                rows={2}
-                                defaultValue={project.project_body}
-                            />
+                            <Form.Item>
+                                {form.getFieldDecorator('newProjBody', {
+                                    initialValue: project.project_body,
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message:
+                                                'Your project must contain a description'
+                                        }
+                                    ]
+                                })(<Input.TextArea rows={2} />)}
+                            </Form.Item>
+                        </Col>
+                        <Col span={2}>
+                            {form.getFieldValue('newProjBody') !=
+                                project.project_body &&
+                                form.getFieldValue('newProjBody') != '' && (
+                                    <Button
+                                        type="primary"
+                                        onClick={editProjBody}
+                                        style={{
+                                            marginLeft: 15,
+                                            marginTop: 39
+                                        }}
+                                    >
+                                        Update
+                                    </Button>
+                                )}
                         </Col>
                     </Row>
                     <Row justify="middle">
@@ -169,7 +235,7 @@ const SettingsTab = ({
                                 >
                                     <Button
                                         type="danger"
-                                        style={{ marginTop: 15 }}
+                                        style={{ marginTop: 7 }}
                                     >
                                         Archive Project
                                     </Button>
@@ -178,7 +244,7 @@ const SettingsTab = ({
                                 <Button
                                     onClick={unarchiveProject}
                                     type="danger"
-                                    style={{ marginTop: 15 }}
+                                    style={{ marginTop: 7 }}
                                 >
                                     Unarchive Project
                                 </Button>
@@ -222,6 +288,38 @@ const enhance = compose(
                 }
             })
         },
+        editProjTitle: props => event => {
+            Meteor.call(
+                'Projects.editTitle',
+                props.projectID,
+                newProjTitle.value,
+                error => {
+                    if (!error) {
+                        store.dispatch(editProjectTitle(newProjTitle.value))
+                        message.success('Project title updated')
+                    } else {
+                        console.log(error)
+                    }
+                }
+            )
+            //console.log(newProjTitle.value)
+        },
+        editProjBody: props => event => {
+            Meteor.call(
+                'Projects.editBody',
+                props.projectID,
+                newProjBody.value,
+                error => {
+                    if (!error) {
+                        store.dispatch(editProjectBody(newProjBody.value))
+                        message.success('Project description updated')
+                    } else {
+                        console.log(error)
+                    }
+                }
+            )
+            //console.log(newProjBody.value)
+        },
         archiveProject: props => event => {
             Meteor.call('Project.archive', props.projectID, error => {
                 if (!error) {
@@ -261,4 +359,6 @@ const mapStateToProps = state => {
 }
 const EnhancedSettingsTab = enhance(SettingsTab)
 
-export default connect(mapStateToProps)(EnhancedSettingsTab)
+const SettingsTabForm = Form.create()(EnhancedSettingsTab)
+
+export default connect(mapStateToProps)(SettingsTabForm)

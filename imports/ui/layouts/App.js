@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import { Layout } from 'antd'
 const { Header, Content, Footer } = Layout
 
-import { Router, Route, Switch, Link } from 'react-router-dom'
+import { Router, Route, Redirect, Switch, Link } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 import { syncHistoryWithStore } from 'react-router-redux'
 
@@ -24,51 +25,75 @@ const browserHistory = createBrowserHistory()
 const history = syncHistoryWithStore(browserHistory, store)
 
 class App extends Component {
-	render() {
-		return (
-			<Layout
-				style={{
-					display: 'flex',
-					minHeight: '100vh',
-					flexDirection: 'column'
-				}}
-			>
-				<Router history={browserHistory}>
-					<div style={{ flex: 1 }}>
-						<NavBar />
-						<Content>
-							<Switch>
-								<Route exact path="/" component={Home} />
-								<Route exact path="/login" component={Login} />
-								<Route
-									exact
-									path="/signup"
-									component={SignUp}
-								/>
-								<Route exact path="/data" component={Data} />
-								<Route exact path="/api" component={API} />
-								<Route
-									exact
-									path="/settings"
-									component={Settings}
-								/>
-								<Route
-									exact
-									path="/profile"
-									component={Profile}
-								/>
-								<Route component={NotFound} />
-							</Switch>
-						</Content>
-					</div>
-				</Router>
-				<Footer style={{ textAlign: 'center' }}>
-					&copy; 2018 BitByBite Inc. | About | Terms of Service |{' '}
-					Privacy Policy
-				</Footer>
-			</Layout>
-		)
-	}
+    render() {
+        const isAuthenticated = Object.keys(this.props.auth.user).length > 0
+
+        const PrivateRoute = ({ component: Component, ...rest }) => (
+            <Route
+                {...rest}
+                render={props =>
+                    isAuthenticated ? (
+                        <Component {...props} />
+                    ) : (
+                        <Redirect
+                            to={{
+                                pathname: '/login'
+                            }}
+                        />
+                    )
+                }
+            />
+        )
+
+        return (
+            <Layout
+                style={{
+                    display: 'flex',
+                    minHeight: '100vh',
+                    flexDirection: 'column'
+                }}
+            >
+                <Router history={browserHistory}>
+                    <div style={{ flex: 1 }}>
+                        <NavBar />
+                        <Content>
+                            <Switch>
+                                <Route exact path="/" component={Home} />
+                                <Route exact path="/login" component={Login} />
+                                <Route
+                                    exact
+                                    path="/signup"
+                                    component={SignUp}
+                                />
+                                <Route exact path="/data" component={Data} />
+                                <Route exact path="/api" component={API} />
+                                <PrivateRoute
+                                    exact
+                                    path="/settings"
+                                    component={Settings}
+                                />
+                                <PrivateRoute
+                                    path="/profile"
+                                    component={Profile}
+                                />
+                                <Route component={NotFound} />
+                            </Switch>
+                        </Content>
+                    </div>
+                </Router>
+                <Footer style={{ textAlign: 'center' }}>
+                    &copy; 2018 BitByBite Inc. | About | Terms of Service |{' '}
+                    Privacy Policy
+                </Footer>
+            </Layout>
+        )
+    }
 }
 
-export default App
+const mapStateToProps = (state, ownProps) => {
+    return {
+        auth: state.auth
+    }
+}
+
+export default connect(mapStateToProps)(App)
