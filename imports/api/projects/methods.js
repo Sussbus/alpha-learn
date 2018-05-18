@@ -29,6 +29,22 @@ Meteor.methods({
 
         Projects.remove(projectID)
     },
+    'Projects.editTitle'(projectID, newTitle) {
+        check(projectID, String)
+        check(newTitle, String)
+
+        const project = Projects.findOne(projectID)
+
+        Projects.update(project, { $set: { project_title: newTitle } })
+    },
+    'Projects.editBody'(projectID, newBody) {
+        check(projectID, String)
+        check(newBody, String)
+
+        const project = Projects.findOne(projectID)
+
+        Projects.update(project, { $set: { project_body: newBody } })
+    },
     'Project.archive'(projectID) {
         check(projectID, String)
 
