@@ -32,7 +32,8 @@ const searchingQuery = new ReactiveVar('') //This var is for search suggestions
 class Data extends Component {
     state = {
         visible: false,
-        isTraining: false
+        isTraining: false,
+        loadMore: 5
     }
 
     startTraining = () => {
@@ -45,6 +46,10 @@ class Data extends Component {
         setTimeout(() => {
             this.setState({ visible: true })
         }, 1500)
+    }
+
+    loadMore = () => {
+        this.setState({ loadMore: this.state.loadMore + 5 })
     }
 
     render() {
@@ -107,43 +112,57 @@ class Data extends Component {
                             {loading ? (
                                 <Loading height={235} />
                             ) : (
-                                projects.map(project => (
-                                    <ProjectCard
-                                        key={project._id}
-                                        projectID={project._id}
-                                        projectTitle={project.project_title}
-                                        projectDescription={
-                                            project.project_body
-                                        }
-                                        projectCreator={
-                                            Meteor.users.findOne({
-                                                _id: project.user_id
-                                            }).username
-                                        }
-                                        timeStamp={moment(
-                                            project.createdAt
-                                        ).fromNow()}
-                                        projectTags={_.map(
-                                            project.project_tags,
-                                            function(value, key) {
-                                                return (
-                                                    <Tag
-                                                        key={key}
-                                                        color={colors[key]}
-                                                    >
-                                                        {value}
-                                                    </Tag>
-                                                )
+                                projects
+                                    .slice(0, this.state.loadMore)
+                                    .map(project => (
+                                        <ProjectCard
+                                            key={project._id}
+                                            projectID={project._id}
+                                            projectTitle={project.project_title}
+                                            projectDescription={
+                                                project.project_body
                                             }
-                                        )}
-                                        numberLabeled={project.labeled}
-                                        handleTrainingRequest={
-                                            this.startTraining
-                                        }
-                                        handleDataRequest={this.RequestData}
-                                    />
-                                ))
+                                            projectCreator={
+                                                Meteor.users.findOne({
+                                                    _id: project.user_id
+                                                }).username
+                                            }
+                                            timeStamp={moment(
+                                                project.createdAt
+                                            ).fromNow()}
+                                            projectTags={_.map(
+                                                project.project_tags,
+                                                function(value, key) {
+                                                    return (
+                                                        <Tag
+                                                            key={key}
+                                                            color={colors[key]}
+                                                        >
+                                                            {value}
+                                                        </Tag>
+                                                    )
+                                                }
+                                            )}
+                                            numberLabeled={project.labeled}
+                                            handleTrainingRequest={
+                                                this.startTraining
+                                            }
+                                            handleDataRequest={this.RequestData}
+                                        />
+                                    ))
                             )}
+                            {!loading &&
+                                projects.length > this.state.loadMore && (
+                                    <Col
+                                        span={2}
+                                        offset={11}
+                                        style={{ marginBottom: 10 }}
+                                    >
+                                        <Button onClick={this.loadMore}>
+                                            Load More
+                                        </Button>
+                                    </Col>
+                                )}
 
                             <RequestData />
                             <LabelingContainer />
