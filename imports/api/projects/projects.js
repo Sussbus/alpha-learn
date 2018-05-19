@@ -64,7 +64,7 @@ export const ProjectsIndex = new Index({
                 aggregation
             )
 
-            // modify the selector to only match documents where region equals "New York"
+            // modify the selector to only fetch where "isArchived" is false
             selector.isArchived = false
 
             return selector

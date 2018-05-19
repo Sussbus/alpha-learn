@@ -1,5 +1,15 @@
 import React, { Component } from 'react'
-import { Layout, Row, Col, Input, Select, Spin, Button, Tag } from 'antd'
+import {
+    Layout,
+    Row,
+    Col,
+    Input,
+    Select,
+    Spin,
+    Button,
+    Tag,
+    AutoComplete
+} from 'antd'
 import { withTracker } from 'meteor/react-meteor-data'
 import { connect } from 'react-redux'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -16,39 +26,13 @@ import { Projects, ProjectsIndex } from '../../api/projects/projects'
 
 const { Content } = Layout
 
-const searchQuery = new ReactiveVar('')
+const searchQuery = new ReactiveVar('') //This var is for once the users searches
+const searchingQuery = new ReactiveVar('') //This var is for search suggestions
 
 class Data extends Component {
     state = {
         visible: false,
         isTraining: false
-    }
-
-    handleSearch = e => {
-        searchQuery.set(e)
-        console.log(e)
-    }
-
-    handleOk = () => {
-        this.setState({ visible: false })
-        const params = {
-            title: 'SVHN Preprocessed Fragments',
-            body:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.',
-            project_tags: ['research', 'patterns', 'classification']
-        }
-        Meteor.call('Projects.insert', params, error => {
-            if (!error) {
-                console.log('Project added!')
-            } else {
-                console.log(error)
-            }
-        })
-    }
-
-    handleCancel = () => {
-        this.setState({ visible: false })
-        console.log('canceled')
     }
 
     startTraining = () => {
@@ -64,6 +48,14 @@ class Data extends Component {
     }
 
     render() {
+        const renderSearchSuggestions = this.props.suggestedProjects.map(
+            project => (
+                <AutoComplete.Option key={project._id}>
+                    {project.project_title}
+                </AutoComplete.Option>
+            )
+        )
+
         const { projects, loading, isTraining } = this.props
         const colors = [
             'blue',
@@ -83,12 +75,21 @@ class Data extends Component {
                         offset={2}
                         style={{ marginTop: 20, marginBottom: 20 }}
                     >
-                        <Input.Search
-                            placeholder="Search..."
-                            onSearch={this.handleSearch}
-                            style={{ width: 300 }}
-                            enterButton
-                        />
+                        <AutoComplete
+                            dataSource={
+                                searchingQuery.get().length > 0
+                                    ? renderSearchSuggestions
+                                    : null
+                            }
+                            onChange={e => searchingQuery.set(e)}
+                        >
+                            <Input.Search
+                                placeholder="Search..."
+                                onSearch={e => searchQuery.set(e)}
+                                style={{ width: 300 }}
+                                enterButton
+                            />
+                        </AutoComplete>
                         <Select
                             mode="tags"
                             placeholder="Tags"
@@ -178,6 +179,9 @@ export default (DataContainer = withTracker(() => {
             { sort: { createdAt: -1 } }
         ).fetch(),*/
         projects: ProjectsIndex.search(searchQuery.get()).fetch(),
+        suggestedProjects: ProjectsIndex.search(searchingQuery.get(), {
+            limit: 5
+        }).fetch(),
         user: Meteor.user(),
         loading: loading
     }
