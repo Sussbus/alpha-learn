@@ -117,7 +117,10 @@ class Data extends Component {
                                     .map(project => (
                                         <ProjectCard
                                             key={project._id}
-                                            projectID={project._id}
+                                            projectID={project._id.replace(
+                                                /[^A-Za-z0-9\s!?]/g,
+                                                ''
+                                            )}
                                             projectTitle={project.project_title}
                                             projectDescription={
                                                 project.project_body
