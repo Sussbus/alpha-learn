@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
     Layout,
     Col,
@@ -10,8 +10,8 @@ import {
     Form,
     Modal,
     message
-} from "antd"
-import { stat } from "fs"
+} from 'antd'
+import { stat } from 'fs'
 
 const { Content } = Layout
 
@@ -28,7 +28,6 @@ const formItemLayout = {
 
 class Settings extends Component {
     state = {
-        ModalText: "Content of the modal",
         visible: false,
         confirmLoading: false
     }
@@ -40,14 +39,14 @@ class Settings extends Component {
             const profile = nextProps.auth.user.profile
             const keys = Object.keys(profile)
             keys.map(key => {
-                if (profile[key] !== "") {
+                if (profile[key] !== '') {
                     const newObj = {}
                     newObj[key] = profile[key]
                     this.props.form.setFieldsValue(newObj)
                 }
             })
             const emailObj = {}
-            emailObj["email"] = nextProps.auth.user.emails[0].address
+            emailObj['email'] = nextProps.auth.user.emails[0].address
             this.props.form.setFieldsValue(emailObj)
         }
     }
@@ -71,14 +70,14 @@ class Settings extends Component {
     }
 
     handleCancel = () => {
-        console.log("Clicked cancel button")
+        console.log('Clicked cancel button')
         this.setState({
             visible: false
         })
     }
 
     handleUpdate = () => {
-        message.success("Profile successfully updated!")
+        message.success('Profile successfully updated!')
     }
 
     handleSubmit = e => {
@@ -89,7 +88,7 @@ class Settings extends Component {
                 let updateObj = {}
 
                 keys.map(key => {
-                    if (values[key] !== undefined && key !== "email") {
+                    if (values[key] !== undefined && key !== 'email') {
                         if (values[key] !== this.props.user.profile[key]) {
                             updateObj[key] = values[key]
                         }
@@ -98,7 +97,7 @@ class Settings extends Component {
                 const newKeys = Object.keys(updateObj)
                 if (newKeys.length > 0) {
                     Meteor.call(
-                        "UserData.insert",
+                        'UserData.insert',
                         updateObj,
                         (error, result) => {
                             if (error) {
@@ -116,19 +115,19 @@ class Settings extends Component {
                     )
                 }
                 if (
-                    values.email !== "" &&
+                    values.email !== '' &&
                     values.email !== this.props.user.emails[0].address
                 ) {
                     console.log(Meteor.userId())
 
                     Meteor.call(
-                        "UserData.replaceEmail",
+                        'UserData.replaceEmail',
                         values.email,
                         (error, result) => {
                             if (error) {
                                 console.log(error)
                             } else {
-                                message.success("Email successfully updated!")
+                                message.success('Email successfully updated!')
                             }
                         }
                     )
@@ -141,12 +140,12 @@ class Settings extends Component {
         const { user } = this.props
         const { getFieldDecorator } = this.props.form
         return (
-            <Content style={{ width: "100%", marginTop: 15 }}>
+            <Content style={{ width: '100%', marginTop: 15 }}>
                 <Col span={20} offset={2}>
                     <h1>Settings</h1>
                     <Card
                         title="Details"
-                        style={{ width: "100%", marginTop: 10 }}
+                        style={{ width: '100%', marginTop: 10 }}
                     >
                         <Form onSubmit={this.handleSubmit} id="settingsForm">
                             <Form.Item {...formItemLayout} label="Username:">
@@ -155,7 +154,8 @@ class Settings extends Component {
                                 </span>
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Email:">
-                                {getFieldDecorator("email", {
+                                {getFieldDecorator('email', {
+                                    initialValue: user.emails[0].address,
                                     rules: [{ required: false }]
                                 })(
                                     <Input
@@ -166,7 +166,8 @@ class Settings extends Component {
                             </Form.Item>
 
                             <Form.Item {...formItemLayout} label="Bio:">
-                                {getFieldDecorator("bio", {
+                                {getFieldDecorator('bio', {
+                                    initialValue: user.profile.bio,
                                     rules: [{ required: false }]
                                 })(
                                     <Input.TextArea
@@ -177,7 +178,8 @@ class Settings extends Component {
                                 )}
                             </Form.Item>
                             <Form.Item {...formItemLayout} label="Website:">
-                                {getFieldDecorator("website", {
+                                {getFieldDecorator('website', {
+                                    initialValue: user.profile.website,
                                     rules: [{ required: false }]
                                 })(
                                     <Input
@@ -198,13 +200,13 @@ class Settings extends Component {
                         Update
                     </Button>
                     <Card title="Delete Account">
-                        <div style={{ float: "left", marginTop: 4 }}>
+                        <div style={{ float: 'left', marginTop: 4 }}>
                             <p>
                                 Taking a break from Alpha Learn? You've found
                                 the right place.
                             </p>
                         </div>
-                        <div style={{ float: "right" }}>
+                        <div style={{ float: 'right' }}>
                             <Button type="danger" onClick={this.showModal}>
                                 Delete
                             </Button>
@@ -218,7 +220,7 @@ class Settings extends Component {
                         onOk={this.handleDeleteAccount}
                         confirmLoading={this.state.confirmLoading}
                         onCancel={this.handleCancel}
-                        style={{ marginTop: "10%" }}
+                        style={{ marginTop: '10%' }}
                     >
                         <p>
                             Are you sure you would like to permantently delete
