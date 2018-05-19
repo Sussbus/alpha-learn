@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
+import { Index, MongoDBEngine } from 'meteor/easy:search'
 
 ProjectsSchema = new SimpleSchema({
     user_id: {
@@ -48,5 +49,27 @@ ProjectsSchema = new SimpleSchema({
 })
 
 export const Projects = new Mongo.Collection('projects')
+
+export const ProjectsIndex = new Index({
+    collection: Projects,
+    fields: ['project_title', 'project_body'],
+    allowedFields: ['createdAt', 'isArchived'],
+    engine: new MongoDBEngine({
+        sort: () => ({ createdAt: -1 }),
+        selector: function(searchObject, options, aggregation) {
+            // selector contains the default mongo selector that Easy Search would use
+            let selector = this.defaultConfiguration().selector(
+                searchObject,
+                options,
+                aggregation
+            )
+
+            // modify the selector to only fetch where "isArchived" is false
+            selector.isArchived = false
+
+            return selector
+        }
+    })
+})
 
 Projects.attachSchema(ProjectsSchema)

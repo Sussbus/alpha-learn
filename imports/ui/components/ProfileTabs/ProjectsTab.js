@@ -70,6 +70,8 @@ const ProjectsTab = ({
                             projectID={project._id}
                             projectTitle={project.project_title}
                             projectBody={project.project_body}
+                            numLabeled={project.labeled}
+                            isArchived={project.isArchived}
                         />
                     </Fragment>
                 ))
