@@ -131,7 +131,7 @@ class Data extends Component {
                                                 project.createdAt
                                             ).fromNow()}
                                             projectTags={_.map(
-                                                project.project_tags,
+                                                project.project_tags.sort(),
                                                 function(value, key) {
                                                     return (
                                                         <Tag
