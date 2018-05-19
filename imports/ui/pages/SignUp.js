@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
+import React, { Component } from 'react'
+import { Meteor } from 'meteor/meteor'
 import {
     Layout,
     Row,
@@ -10,13 +10,13 @@ import {
     Button,
     Icon,
     Checkbox
-} from 'antd';
+} from 'antd'
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Sider, Content } = Layout
 
 class SignUp extends Component {
     handleSubmit = e => {
-        e.preventDefault();
+        e.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 Accounts.createUser(
@@ -27,27 +27,41 @@ class SignUp extends Component {
                     },
                     function(error) {
                         if (!error) {
-                            console.log('Account Created: ', values);
+                            console.log('Account Created: ', values)
                         } else {
-                            console.log(error);
+                            console.log(error)
                         }
                     }
-                );
+                )
             }
-        });
-    };
+        })
+    }
+
+    validateUsername = (rule, value, callback) => {
+        const { getFieldValue } = this.props.form
+
+        const findUser =
+            Meteor.users.findOne({
+                username: getFieldValue('username')
+            }) || null
+        if (findUser != null) {
+            callback('Username taken')
+        } else {
+            callback()
+        }
+    }
 
     compareToFirstPassword = (rule, value, callback) => {
-        const form = this.props.form;
+        const form = this.props.form
         if (value && value !== form.getFieldValue('password')) {
-            callback('Passwords do not match!');
+            callback('Passwords do not match!')
         } else {
-            callback();
+            callback()
         }
-    };
+    }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
 
         return (
             <div>
@@ -90,13 +104,17 @@ class SignUp extends Component {
                                             )}
                                         </Form.Item>
 
-                                        <Form.Item>
+                                        <Form.Item hasFeedback>
                                             {getFieldDecorator('username', {
                                                 rules: [
                                                     {
                                                         required: true,
                                                         message:
                                                             'Please input your username!'
+                                                    },
+                                                    {
+                                                        validator: this
+                                                            .validateUsername
                                                     }
                                                 ]
                                             })(
@@ -201,10 +219,10 @@ class SignUp extends Component {
                     </Content>
                 </Layout>
             </div>
-        );
+        )
     }
 }
 
-const WrappedSignUpForm = Form.create()(SignUp);
+const WrappedSignUpForm = Form.create()(SignUp)
 
-export default WrappedSignUpForm;
+export default WrappedSignUpForm
