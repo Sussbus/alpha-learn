@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "durable-melody-204106",
+  "private_key_id": "7490cf07398b5fea3d816c4f1bc03b7dc9f5f9f9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDQ9EyyPTfC7la7\naffYZuTP5KMpRLP8jaD0Y7YIQMIvR0dQ2D2L8L29FcCUQR6xFTp3a8TKdWGJD/bQ\ncUFFlAoOZOSBB6vChoNJFL9wPVzW1N3JFh/HwPn44Vnqji3SrZMC8ljcj+CRCBk1\nfuMTWzAQfn8layG4kthF44enkoqy7pFVsZeoVRSzBFK7RUajI8krl+bxs+ZcTFm+\na278xAol8CAeMeIS9J1DX1LqiCJbclYn19UDHvx75QZYQPvLEswKsFNlXenPlViq\n87y5wOUuhrOcihWN53/EQl3PggBjvLmmPpih4svehPV/5g3bmsLU7IlqaoZ+kxPW\nsIsbZn+FAgMBAAECggEANDNHwsJc3w+ELts0/cSMtmvnn+xoK3hlRJBxXgPxjvaX\nWBjBXWeluupHezH+fR4wxjsvxSVIWcGZdu7IL93hGkH1vM9CBz1r6FKs1Zkay5eP\nlYf3pgMtX5HKkPh2dZqDrrmE3gr6frjfdVgO2dvOuNwlHt+x46aZrXH/RmtrR3Iy\n1iuZ1H6zq4nR8jCgJsZRLIXLPbYRN63k6R27BHu4iC+XCjhbkUbKCFwUVrdERigF\nehZ01AB20JMf0l8Hr71Wmw4+5nGuDqRDdtYPeSYIYlKIIzustUrEZ8SuRQwPYbWf\neROX2msZvPSnc25MwwCArIdZmRxvyD7ajL84unijWQKBgQDtm1Fj8hw3DRfTrmBx\nYWClNA4pYC/2c5WCaXN1TSIF2R/Ut/ToEnWUZL9HPOwOCAbdCS0qShiZ9LJnd7RQ\n4IcI3TebZWKh1uLfmDw07wpr/3h2GQ0uVgrUCiGisKHd7WPXThDHyG7M1CIPPXoz\nfhBwZrF7QWs1f3s5aFgQXA3MKQKBgQDhISxTL54Gj3lp+/xxOcvNw1pJzT2rSyF2\njCiLEXgGh5iZRUtWfPB0dMgqQAqKpXNaCIXeTamBNazlvZPXAI+0hTRrozPtXca/\nXzl6aWuWTftBMBpYW8RceW+Cbo5xv9NbGY0NnZAvlxMo/lVZdqrgtDnPbKKYZnlK\nI3Ok1U1D/QKBgQC8nlSBC7w8M2ebwcyLlOq8mlM3o0TP1rdz/DQMhTuh+tea7KE8\n7RJrx4JUkdct2E9ifhtde86FwMsy+cKphWOMtNekw1oF8WjOaLI6rxvN2dKNpZti\nEimsY5KJ7L/CReXBEBagEctrTGbxRDNS1xtDrzHrD2aE5Hs0elGWQw0s6QKBgQDV\nVVEidvIBd33vT8j1JnaZQnBRlTrGEkjghIp61g/t6BpTy5VLnNNjF7MCTnNu1L/N\nZlwsv11LwqhXgGETEUYcI0n8Ycf4O6/1cvANrs4zvSvFpyaf6j3V/4EKkWdMJSHM\npxbB+zhB0KBobTJFt6zPiBlsFJ6zWg+/kH6qiTJRpQKBgApRH2EW5K9osZEzX0oK\nM1s8Qv4NrIgSKTGd4pdQXwsEVufb45Gw57LPzpLmizpIG19f6wFwA+6vIDw66qOY\nfYwxEFSCUjBuI8cfc0v5x0Ip830Irhbb1leKRPi90h4LPRhXlIAudCWqcraWBsyb\nagHxVqRB8bRqXCTQrI8IJGra\n-----END PRIVATE KEY-----\n",
+  "client_email": "alpha-learn-account@durable-melody-204106.iam.gserviceaccount.com",
+  "client_id": "113122216170697955298",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/alpha-learn-account%40durable-melody-204106.iam.gserviceaccount.com"
+}
