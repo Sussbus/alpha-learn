@@ -32,7 +32,9 @@ const CreateProject = ({
     createProject,
     handleTags,
     handleLabelingInterface,
-    isCreatingProject
+    isCreatingProject,
+    handleFileUpload,
+    uploadFiles
 }) => {
     return (
         <Modal
@@ -213,7 +215,10 @@ const CreateProject = ({
                                 offset={3}
                                 style={{ height: '85%', paddingTop: 55 }}
                             >
-                                <Upload.Dragger>
+                                <Upload.Dragger
+                                    beforeUpload={handleFileUpload}
+                                    fileList={uploadFiles}
+                                >
                                     <Row>
                                         <Icon
                                             style={{
@@ -332,6 +337,7 @@ const enhance = compose(
     withState('stepNumber', 'changeSlide', 0),
     withState('projTags', 'addTags', []),
     withState('labelType', 'handleLabelType', ''),
+    withState('uploadFiles', 'updateFiles', []),
     withHandlers({
         onCancel: props => event => {
             store.dispatch(closeCreateProject())
@@ -351,17 +357,43 @@ const enhance = compose(
         handleLabelingInterface: props => event => {
             props.handleLabelType(event.target.id)
         },
+        handleFileUpload: props => event => {
+            props.uploadFiles.push(event)
+            console.log(props.uploadFiles)
+            //console.log(file, fileList)
+        },
         createProject: props => event => {
             const project = {
                 title: projectName.value,
                 body: projectDescription.value,
                 project_tags: props.projTags,
+                project_files: [props.uploadFiles[0].name],
                 labeling_interface: props.labelType
             }
 
             Meteor.call('Projects.insert', project, error => {
                 if (!error) {
                     console.log('Project successfully created!')
+                    let reader = new FileReader()
+                    let file = props.uploadFiles[0]
+                    reader.onloadend = theFile => {
+                        var data = {
+                            blob: theFile.target.result,
+                            name: file.name
+                        }
+                        //console.log(data)
+                        //console.log(data.blob);
+                        Meteor.call('file-upload', data, error => {
+                            if (!error) {
+                                console.log(error)
+                            } else {
+                                console.log('files successfully uploaded')
+                            }
+                        })
+                        //this.props.socketio.emit('file-upload', data);
+                    }
+                    console.log(file)
+                    reader.readAsDataURL(file)
                 } else {
                     console.log(error)
                 }

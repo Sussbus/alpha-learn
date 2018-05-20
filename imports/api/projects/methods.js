@@ -17,6 +17,7 @@ Meteor.methods({
             project_title: project.title,
             project_body: project.body,
             project_tags: project.project_tags,
+            project_files: project.project_files,
             labeling_interface: project.labeling_interface,
             labeled: 0,
             isArchived: false

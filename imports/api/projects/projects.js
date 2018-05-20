@@ -31,6 +31,10 @@ ProjectsSchema = new SimpleSchema({
         optional: false,
         label: "Project's relevant tags"
     },
+    project_files: {
+        type: [String],
+        label: "List of project's file"
+    },
     labeling_interface: {
         type: String,
         label: "Project's labeling interface"
