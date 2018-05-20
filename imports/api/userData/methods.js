@@ -1,5 +1,7 @@
 import { check } from 'meteor/check';
 import { Accounts } from 'meteor/accounts-base'
+import { Random } from 'meteor/random'
+import Future from 'fibers/future';
 
 var gcloud, gcs, bucket, bucketMetadata, Request, bound, Collections = {};
 var fs = Npm.require('fs');
@@ -27,46 +29,55 @@ Meteor.methods({
         Accounts.removeEmail(Meteor.userId(), Meteor.user().emails[0].address)
         Accounts.addEmail(Meteor.userId(), newEmail);
       },
-      'file-upload': function (data) {
-        console.log("received file " + data.name );
-        console.log(__dirname)
-        //fs.writeFile("temp/test.png",data.name, data);
-        fs.writeFile('./myfile', data.blob, { flag: 'w' }, function(err) {
-          if (err) 
-              return console.error(err); 
-          fs.readFile('./myfile.txt', 'utf-8', function (err, data) {
-          if (err)
-              return console.error(err);
-          console.log(data);
-
-          uploadFile('alphalearn', './myfile')
+    'file-upload'(data) {
+      console.log("received file " + data.name );
+      const name = data.name;
+      const filename = Random.id()+name.substr(name.indexOf('.'));;
+      let base64Image = data.blob.split(';base64,').pop();
+      fs.writeFile('./'+filename, base64Image, { encoding: 'base64', flag: 'w' }, (err) => {
+        if (err) {
+          return console.error(err); 
+        }
+        uploadFile('alphalearn', './'+filename)
+      });
+    },
+    'getimages'() {
+      var future = new Future();
+      
+      const Storage = require('@google-cloud/storage');
+      const storage = new Storage();
+      storage
+        .bucket('alphalearn')
+        .getFiles()
+        .then(results => {
+          const files = results[0];
+          const images = [];
+          files.forEach(element => {
+            const name = element.name;
+            //console.log(element.name)
+            //console.log(name.substr(name.indexOf('.')) === '.jpg')
+            if (name.substr(name.indexOf('.')) === '.jpg' || name.substr(name.indexOf('.')) === '.png'){
+              images.push(name);
+            }
           });
-      })
+          console.log(images)
+          future.return( images);
+        })
+        .catch(err => {
+          console.error('ERROR:', err);
+        });
 
-        fs.writeFile("temp.jpeg" ,data.blob, function(err) {
-          if(err) {
-            console.log("err", err);
-          } else {
-            console.log("yay" );
-          }
-        }) 
-        
-     }
+      return future.wait();
+    }
 });
 
-function uploadFile(bucketName, filename) {
+const uploadFile = (bucketName, filename) => {
   // [START storage_upload_file]
   // Imports the Google Cloud client library
   const Storage = require('@google-cloud/storage');
 
   // Creates a client
   const storage = new Storage();
-
-  /**
-   * TODO(developer): Uncomment the following lines before running the sample.
-   */
-  // const bucketName = 'Name of a bucket, e.g. my-bucket';
-  // const filename = 'Local file to upload, e.g. ./local/path/to/file.txt';
 
   // Uploads a local file to the bucket
   storage
@@ -78,5 +89,30 @@ function uploadFile(bucketName, filename) {
     .catch(err => {
       console.error('ERROR:', err);
     });
-  // [END storage_upload_file]
+}
+
+const getimages = () => {
+  const Storage = require('@google-cloud/storage');
+  const storage = new Storage();
+  this.unblock();
+  storage
+    .bucket('alphalearn')
+    .getFiles()
+    .then(results => {
+      const files = results[0];
+      const images = [];
+      files.forEach(element => {
+        const name = element.name;
+        //console.log(element.name)
+        //console.log(name.substr(name.indexOf('.')) === '.jpg')
+        if (name.substr(name.indexOf('.')) === '.jpg' || name.substr(name.indexOf('.')) === '.png'){
+          images.push(name);
+        }
+      });
+      console.log(images)
+      return images;
+    })
+    .catch(err => {
+      console.error('ERROR:', err);
+    });
 }

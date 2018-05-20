@@ -16,6 +16,18 @@ import { connect } from 'react-redux';
 const { Header, Footer, Sider, Content } = Layout;
 
 class Home extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            imageNames: []
+        }
+    }
+    componentDidMount(){
+        Meteor.call('getimages', (err, data) => {
+            this.setState({imageNames: data})
+            console.log(data)
+        })
+    }
     getFile = (e) => {
         e.preventDefault();
         let reader = new FileReader();
@@ -46,9 +58,11 @@ class Home extends Component {
                             <Col span={7} offset={8}>
                                 <h1>{username}</h1>
                                 <input onChange={this.getFile} id="fileUpload" type="file" className="upload"/>
-
-
-
+                                {this.state.imageNames.map(imageName => 
+                                    ( 
+                                        <img src={`https://storage.googleapis.com/alphalearn/${imageName}`} style={{width:'70%', height:'70%'}}/> 
+                                    )
+                                )}
                             </Col>
                         </Row>
                     </Content>

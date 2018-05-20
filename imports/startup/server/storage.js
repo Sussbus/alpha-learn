@@ -11,7 +11,6 @@ if (Meteor.isServer) {
     if (error) {
       console.error(error);
     }
-    console.log(apiResponse)
   });
   Request = Npm.require('request');
   bound = Meteor.bindEnvironment(function(callback){
@@ -26,14 +25,12 @@ if (Meteor.isServer) {
       console.log('Files:');
       files.forEach(file => {
         console.log(file.name);
-        downloadFile('alphalearn',file.name,'/Users/connorlarkin/Desktop/DSC00d699.png')
+        //downloadFile('alphalearn',file.name,'/Users/connorlarkin/Desktop/DSC00d699.png')
       });
     })
     .catch(err => {
       console.error('ERROR:', err);
     });//
-
-
 }
 
 function downloadFile(bucketName, srcFilename, destFilename) {
