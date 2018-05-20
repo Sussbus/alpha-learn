@@ -16,21 +16,6 @@ if (Meteor.isServer) {
   bound = Meteor.bindEnvironment(function(callback){
     return callback();
   });
-  gcs
-    .bucket('alphalearn')
-    .getFiles()
-    .then(results => {
-      const files = results[0];
-
-      console.log('Files:');
-      files.forEach(file => {
-        console.log(file.name);
-        //downloadFile('alphalearn',file.name,'/Users/connorlarkin/Desktop/DSC00d699.png')
-      });
-    })
-    .catch(err => {
-      console.error('ERROR:', err);
-    });//
 }
 
 function downloadFile(bucketName, srcFilename, destFilename) {
@@ -40,14 +25,7 @@ function downloadFile(bucketName, srcFilename, destFilename) {
   
     // Creates a client
     const storage = new Storage();
-  
-    /**
-     * TODO(developer): Uncomment the following lines before running the sample.
-     */
-    // const bucketName = 'Name of a bucket, e.g. my-bucket';
-    // const srcFilename = 'Remote file to download, e.g. file.txt';
-    // const destFilename = 'Local destination for file, e.g. ./local/path/to/file.txt';
-  
+
     const options = {
       // The path to which the file should be downloaded, e.g. "./file.txt"
       destination: destFilename,

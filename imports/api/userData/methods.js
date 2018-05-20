@@ -60,7 +60,6 @@ Meteor.methods({
               images.push(name);
             }
           });
-          console.log(images)
           future.return( images);
         })
         .catch(err => {
@@ -85,32 +84,6 @@ const uploadFile = (bucketName, filename) => {
     .upload(filename)
     .then(() => {
       console.log(`${filename} uploaded to ${bucketName}.`);
-    })
-    .catch(err => {
-      console.error('ERROR:', err);
-    });
-}
-
-const getimages = () => {
-  const Storage = require('@google-cloud/storage');
-  const storage = new Storage();
-  this.unblock();
-  storage
-    .bucket('alphalearn')
-    .getFiles()
-    .then(results => {
-      const files = results[0];
-      const images = [];
-      files.forEach(element => {
-        const name = element.name;
-        //console.log(element.name)
-        //console.log(name.substr(name.indexOf('.')) === '.jpg')
-        if (name.substr(name.indexOf('.')) === '.jpg' || name.substr(name.indexOf('.')) === '.png'){
-          images.push(name);
-        }
-      });
-      console.log(images)
-      return images;
     })
     .catch(err => {
       console.error('ERROR:', err);
